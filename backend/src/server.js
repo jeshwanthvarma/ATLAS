@@ -1,14 +1,20 @@
 require("dotenv").config();
 
 const app = require("./app");
+const { connectDatabase } = require("./core/database/database");
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-    console.log(`
-==========================================
-🚀 ATLAS Backend Started
-🌐 http://localhost:${PORT}
-==========================================
-`);
-});
+async function startServer() {
+    await connectDatabase();
+
+    app.listen(PORT, () => {
+        console.log("=======================================");
+        console.log("🚀 ATLAS Backend Started");
+        console.log(`🌐 Server : http://localhost:${PORT}`);
+        console.log(`📦 Environment : ${process.env.NODE_ENV}`);
+        console.log("=======================================");
+    });
+}
+
+startServer();
