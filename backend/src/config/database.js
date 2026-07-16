@@ -6,19 +6,13 @@ const pool = new Pool({
     port: process.env.DB_PORT,
     database: process.env.DB_NAME,
     user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
+    password: process.env.DB_PASSWORD || undefined,
 });
 
 async function connectDatabase() {
     try {
-        const client = await pool.connect();
-
-        console.log("=======================================");
-        console.log("✅ PostgreSQL Connected Successfully");
-        console.log(`📂 Database : ${process.env.DB_NAME}`);
-        console.log("=======================================");
-
-        client.release();
+        await pool.query("SELECT NOW()");
+        console.log("✅ Database Connected Successfully");
     } catch (error) {
         console.error("❌ Database Connection Failed");
         console.error(error.message);
