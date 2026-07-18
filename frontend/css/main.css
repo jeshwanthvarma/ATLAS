@@ -1,0 +1,47 @@
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#0f172a;
+    color:white;
+}
+
+.container{
+    max-width:700px;
+    margin:80px auto;
+    text-align:center;
+}
+
+h1{
+    font-size:60px;
+    margin-bottom:10px;
+}
+
+.subtitle{
+    color:#94a3b8;
+    margin-bottom:40px;
+}
+
+.status-card{
+    background:#1e293b;
+    padding:30px;
+    border-radius:12px;
+    margin-bottom:30px;
+}
+
+.online{
+    color:#22c55e;
+    font-weight:bold;
+}
+
+button{
+    padding:15px 35px;
+    margin:10px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+button:hover{
+    opacity:.9;
+}

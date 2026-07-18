@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ATLAS Dashboard</title>
+
+    <link rel="stylesheet" href="css/dashboard.css">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="layout">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <i class="fa-solid fa-satellite-dish"></i>
+
+            <h2>ATLAS</h2>
+
+        </div>
+
+        <nav>
+
+            <a href="#"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+
+            <a href="#"><i class="fa-solid fa-server"></i> Servers</a>
+
+            <a href="#"><i class="fa-solid fa-chart-area"></i> Monitoring</a>
+
+            <a href="#"><i class="fa-solid fa-bell"></i> Alerts</a>
+
+            <a href="#"><i class="fa-solid fa-file-lines"></i> Reports</a>
+
+            <a href="#"><i class="fa-solid fa-shield-halved"></i> Security</a>
+
+            <a href="#"><i class="fa-solid fa-gear"></i> Settings</a>
+
+            <a href="login.html"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+
+        </nav>
+
+    </aside>
+
+    <!-- Main Content -->
+
+    <main class="content">
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>Dashboard</h1>
+
+                <p>Infrastructure Monitoring Platform</p>
+
+            </div>
+
+            <div>
+
+                <span>🟢 Backend Online</span>
+
+            </div>
+
+        </header>
+
+        
+        <section class="panel system-info">
+
+    <h2>System Information</h2>
+
+    <table>
+        <tr>
+            <td><strong>Hostname</strong></td>
+            <td id="hostname">Loading...</td>
+        </tr>
+
+        <tr>
+            <td><strong>Platform</strong></td>
+            <td id="platform">Loading...</td>
+        </tr>
+
+        <tr>
+            <td><strong>Architecture</strong></td>
+            <td id="architecture">Loading...</td>
+        </tr>
+
+        <tr>
+            <td><strong>Node Version</strong></td>
+            <td id="nodeVersion">Loading...</td>
+        </tr>
+
+        <tr>
+            <td><strong>Uptime</strong></td>
+            <td id="uptime">Loading...</td>
+        </tr>
+
+    </table>
+
+</section>
+
+        <section class="panels">
+
+            <div class="panel">
+
+                <h2>System Performance</h2>
+
+                <canvas id="cpuChart"></canvas>
+
+            </div>
+
+            <div class="panel">
+
+                <h2>Recent Alerts</h2>
+
+                <ul>
+
+                    <li>SSH Login</li>
+                    <li>High CPU Usage</li>
+                    <li>Disk Warning</li>
+
+                </ul>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="config/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/dashboard.js"></script>
+
+</body>
+
+</html>

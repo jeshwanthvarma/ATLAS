@@ -2,6 +2,10 @@ const express = require("express");
 
 const router = express.Router();
 
+// Import Monitoring Routes
+const monitoringRoutes = require("./monitoring");
+
+// Root Route
 router.get("/", (req, res) => {
     res.json({
         application: "ATLAS",
@@ -11,6 +15,7 @@ router.get("/", (req, res) => {
     });
 });
 
+// Health Check
 router.get("/health", (req, res) => {
     res.json({
         status: "OK",
@@ -18,5 +23,8 @@ router.get("/health", (req, res) => {
         timestamp: new Date().toISOString()
     });
 });
+
+// Monitoring Routes
+router.use("/", monitoringRoutes);
 
 module.exports = router;

@@ -1,0 +1,322 @@
+@import url("variables.css");
+/* ===========================
+   ATLAS Dashboard CSS v1.0
+=========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:#0F172A;
+    color:#F8FAFC;
+}
+
+/* ===========================
+   Header
+=========================== */
+
+header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:20px 60px;
+
+    background:#1E293B;
+
+    border-bottom:1px solid rgba(255,255,255,.05);
+
+}
+
+.logo{
+
+    display:flex;
+    align-items:center;
+    gap:15px;
+
+}
+
+.logo i{
+
+    color:#2563EB;
+    font-size:28px;
+
+}
+
+.logo h1{
+
+    font-size:28px;
+
+}
+
+nav{
+
+    display:flex;
+    gap:30px;
+
+}
+
+nav a{
+
+    color:#CBD5E1;
+    text-decoration:none;
+    transition:.3s;
+
+}
+
+nav a:hover{
+
+    color:#2563EB;
+
+}
+
+/* ===========================
+   Main
+=========================== */
+
+main{
+
+    width:90%;
+    max-width:1400px;
+
+    margin:auto;
+
+}
+
+/* ===========================
+   Hero
+=========================== */
+
+.hero{
+
+    margin:50px 0;
+
+}
+
+.hero h2{
+
+    font-size:36px;
+    margin-bottom:10px;
+
+}
+
+.hero p{
+
+    color:#94A3B8;
+
+}
+
+/* ===========================
+   Cards
+=========================== */
+
+.cards{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:25px;
+
+}
+
+.card{
+
+    background:#1E293B;
+
+    border-radius:15px;
+
+    padding:30px;
+
+    transition:.3s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-6px);
+
+}
+
+.card i{
+
+    font-size:30px;
+
+    color:#2563EB;
+
+    margin-bottom:20px;
+
+}
+
+.card h3{
+
+    color:#94A3B8;
+
+    margin-bottom:15px;
+
+}
+
+.card h1{
+
+    font-size:42px;
+
+}
+
+/* ===========================
+   Panels
+=========================== */
+
+.panels{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:25px;
+
+    margin-top:40px;
+
+}
+
+.panel{
+
+    background:#1E293B;
+
+    border-radius:15px;
+
+    padding:30px;
+
+}
+
+.panel h2{
+
+    margin-bottom:20px;
+
+}
+
+.panel ul{
+
+    list-style:none;
+
+}
+
+.panel li{
+
+    padding:12px 0;
+
+    border-bottom:1px solid rgba(255,255,255,.05);
+
+}
+
+/* ===========================
+   Responsive
+=========================== */
+
+@media(max-width:1000px){
+
+.cards{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+.panels{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+@media(max-width:650px){
+
+header{
+
+flex-direction:column;
+gap:20px;
+
+padding:20px;
+
+}
+
+nav{
+
+flex-wrap:wrap;
+justify-content:center;
+
+}
+
+.cards{
+
+grid-template-columns:1fr;
+
+}
+
+.hero h2{
+
+font-size:28px;
+
+}
+
+}
+/* ===== Layout ===== */
+
+.layout{
+    display:flex;
+    min-height:100vh;
+}
+
+.sidebar{
+    width:260px;
+    background:var(--card);
+    padding:30px 20px;
+    border-right:1px solid var(--border);
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:40px;
+}
+
+.brand i{
+    color:var(--primary);
+    font-size:28px;
+}
+
+.sidebar nav{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.sidebar nav a{
+    color:var(--text-secondary);
+    text-decoration:none;
+    padding:14px;
+    border-radius:12px;
+    transition:.3s;
+}
+
+.sidebar nav a:hover{
+    background:var(--primary);
+    color:white;
+}
+
+.content{
+    flex:1;
+    padding:40px;
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:40px;
+}

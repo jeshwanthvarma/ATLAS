@@ -1,0 +1,41 @@
+:root{
+
+    /* Primary */
+
+    --primary:#2563EB;
+
+    /* Background */
+
+    --bg:#0F172A;
+
+    /* Cards */
+
+    --card:#1E293B;
+
+    /* Text */
+
+    --text:#F8FAFC;
+
+    --text-secondary:#94A3B8;
+
+    /* Status */
+
+    --success:#22C55E;
+
+    --warning:#F59E0B;
+
+    --danger:#EF4444;
+
+    /* Borders */
+
+    --border:rgba(255,255,255,.05);
+
+    /* Radius */
+
+    --radius:16px;
+
+    /* Shadow */
+
+    --shadow:0 10px 30px rgba(0,0,0,.25);
+
+}
