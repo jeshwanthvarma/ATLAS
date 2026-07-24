@@ -1,0 +1,574 @@
+# ATLAS – API DOCUMENTATION
+
+Project Name:
+ATLAS – Unified Infrastructure Monitoring and Security Platform
+
+Backend:
+Node.js + Express.js
+
+API Type:
+REST API
+
+Developer:
+Jeshwanth Varma M.V.
+
+1. INTRODUCTION
+
+---
+
+ATLAS uses REST APIs to provide communication between the frontend dashboard and the Node.js/Express backend.
+
+The backend monitoring engine collects information from the Ubuntu system and exposes the information through API endpoints.
+
+The frontend uses these endpoints to retrieve infrastructure information and display it on the ATLAS dashboard.
+
+2. BASE URL
+
+---
+
+During local development, the ATLAS backend runs at:
+
+http://localhost:3000
+
+The API endpoints are accessed using the /api path.
+
+3. API ARCHITECTURE
+
+---
+
+The general API flow is:
+
+User
+|
+v
+ATLAS Frontend
+|
+v
+HTTP Request
+|
+v
+Express Route
+|
+v
+Controller
+|
+v
+Service
+|
+v
+Ubuntu System / PostgreSQL
+|
+v
+JSON Response
+|
+v
+Frontend Dashboard
+
+4. RESPONSE FORMAT
+
+---
+
+ATLAS monitoring APIs return information primarily using JSON.
+
+Example:
+
+{
+"hostname": "Jeshwanth",
+"platform": "linux",
+"architecture": "x64",
+"cpuCores": 12
+}
+
+JSON provides a lightweight format that can easily be processed by frontend JavaScript.
+
+5. SYSTEM INFORMATION API
+
+---
+
+Endpoint:
+
+GET /api/system
+
+Purpose:
+
+Returns general information about the system running ATLAS.
+
+Information may include:
+
+* Hostname
+* Platform
+* Architecture
+* System uptime
+* Node.js version
+* CPU core count
+* Total memory
+* Free memory
+
+Example request:
+
+GET http://localhost:3000/api/system
+
+Example response:
+
+{
+"hostname": "Jeshwanth",
+"platform": "linux",
+"architecture": "x64",
+"uptime": "0 Hours 19 Minutes",
+"nodeVersion": "v24.18.0",
+"cpuCores": 12,
+"totalMemory": "7.47 GB",
+"freeMemory": "5.80 GB"
+}
+
+6. CPU MONITORING API
+
+---
+
+Endpoint:
+
+GET /api/cpu
+
+Purpose:
+
+Retrieves CPU-related monitoring information from the system.
+
+Method:
+
+GET
+
+The endpoint is used by the ATLAS monitoring interface to obtain processor information.
+
+Request:
+
+GET http://localhost:3000/api/cpu
+
+The returned information is formatted as JSON and can be processed by the dashboard.
+
+7. MEMORY MONITORING API
+
+---
+
+Endpoint:
+
+GET /api/memory
+
+Purpose:
+
+Retrieves memory-related information from the Ubuntu system.
+
+Method:
+
+GET
+
+Request:
+
+GET http://localhost:3000/api/memory
+
+The response provides information that can be used by the frontend to display current system memory conditions.
+
+8. DISK MONITORING API
+
+---
+
+Endpoint:
+
+GET /api/disk
+
+Purpose:
+
+Retrieves disk/storage information from the system.
+
+Method:
+
+GET
+
+Request:
+
+GET http://localhost:3000/api/disk
+
+The endpoint allows the ATLAS frontend to obtain storage information for dashboard presentation.
+
+9. NETWORK MONITORING API
+
+---
+
+Endpoint:
+
+GET /api/network
+
+Purpose:
+
+Retrieves network-related information from the system.
+
+Method:
+
+GET
+
+Request:
+
+GET http://localhost:3000/api/network
+
+The endpoint provides network information collected by the ATLAS monitoring service.
+
+10. AUTHENTICATION SYNCHRONIZATION API
+
+---
+
+Endpoint:
+
+POST /api/auth/sync
+
+Purpose:
+
+Synchronizes an authenticated Firebase user with the ATLAS PostgreSQL user database.
+
+The authentication route is protected by backend authentication middleware.
+
+General flow:
+
+Frontend
+|
+v
+Firebase Authentication
+|
+v
+Firebase ID Token
+|
+v
+POST /api/auth/sync
+|
+v
+Authentication Middleware
+|
+v
+Firebase Admin SDK
+|
+v
+Authentication Controller
+|
+v
+Authentication Service
+|
+v
+Authentication Repository
+|
+v
+PostgreSQL
+
+11. FIREBASE TOKEN VERIFICATION
+
+---
+
+Firebase Authentication performs frontend authentication.
+
+After authentication, Firebase can provide an ID token representing the authenticated user.
+
+Protected backend requests can provide this token to ATLAS.
+
+The backend authentication middleware verifies the token using the Firebase Admin SDK.
+
+If the token is valid:
+
+* User identity is extracted.
+* The request can continue.
+* Protected backend functionality becomes accessible.
+
+If the token is invalid:
+
+* Authentication fails.
+* Access to protected functionality is rejected.
+
+12. AUTHENTICATION COMPONENTS
+
+---
+
+The backend authentication architecture contains components such as:
+
+authRoutes.js
+Defines authentication-related API routes.
+
+authMiddleware.js
+Verifies Firebase authentication tokens.
+
+authController.js
+Handles authentication-related requests.
+
+authService.js
+Contains authentication business logic.
+
+authRepository.js
+Performs authentication-related PostgreSQL operations.
+
+firebase.js
+Initializes the Firebase Admin SDK.
+
+13. MONITORING COMPONENTS
+
+---
+
+The monitoring architecture separates API routing, controller logic, and monitoring services.
+
+Important monitoring components include:
+
+Monitoring Routes
+Defines monitoring endpoints.
+
+Monitoring Controller
+Handles incoming monitoring requests.
+
+Monitoring Service
+Collects information from the operating system.
+
+This separation makes the monitoring code easier to maintain and extend.
+
+14. HTTP METHODS
+
+---
+
+The ATLAS API primarily uses:
+
+GET
+Used to retrieve monitoring information.
+
+POST
+Used when information must be submitted to the backend, such as user synchronization.
+
+15. API STATUS CODES
+
+---
+
+Common HTTP status codes used by or applicable to the ATLAS API include:
+
+200 OK
+Request completed successfully.
+
+201 Created
+A new resource was successfully created.
+
+400 Bad Request
+The request contains invalid or missing information.
+
+401 Unauthorized
+Authentication is required or authentication verification failed.
+
+403 Forbidden
+The authenticated user does not have permission to perform an operation.
+
+404 Not Found
+The requested endpoint or resource does not exist.
+
+500 Internal Server Error
+An unexpected backend error occurred.
+
+16. API SECURITY
+
+---
+
+ATLAS uses several mechanisms to improve backend API security.
+
+These include:
+
+* Firebase authentication
+* Firebase Admin token verification
+* Authentication middleware
+* Environment variables
+* Backend-controlled PostgreSQL access
+* CORS configuration
+* Helmet middleware
+* Request validation support
+
+Sensitive credentials should not be included directly in frontend source code or committed to public repositories.
+
+17. DATABASE ACCESS THROUGH API
+
+---
+
+The frontend does not directly communicate with PostgreSQL.
+
+Database operations follow the backend architecture:
+
+Frontend
+|
+v
+REST API
+|
+v
+Controller
+|
+v
+Service
+|
+v
+Repository
+|
+v
+PostgreSQL
+
+This architecture prevents direct database exposure to the browser.
+
+18. MONITORING API DATA FLOW
+
+---
+
+The monitoring request flow can be represented as:
+
+ATLAS Dashboard
+|
+| GET /api/system
+|
+v
+Express Router
+|
+v
+Monitoring Controller
+|
+v
+Monitoring Service
+|
+v
+Ubuntu System
+|
+v
+Monitoring Data
+|
+v
+JSON Response
+|
+v
+ATLAS Dashboard
+
+19. API TESTING
+
+---
+
+ATLAS APIs can be tested using:
+
+* Web browser for GET endpoints
+* curl
+* Postman
+* Frontend JavaScript
+
+Example curl request:
+
+curl http://localhost:3000/api/system
+
+Other monitoring tests:
+
+curl http://localhost:3000/api/cpu
+
+curl http://localhost:3000/api/memory
+
+curl http://localhost:3000/api/disk
+
+curl http://localhost:3000/api/network
+
+20. IMPLEMENTED API SUMMARY
+
+---
+
+## Method     Endpoint             Purpose
+
+GET        /api/system         General system information
+
+GET        /api/cpu            CPU monitoring information
+
+GET        /api/memory         Memory monitoring information
+
+GET        /api/disk           Disk monitoring information
+
+GET        /api/network        Network monitoring information
+
+POST       /api/auth/sync      Synchronize authenticated user
+
+21. ERROR HANDLING
+
+---
+
+When an API operation fails, the backend should return an appropriate HTTP status code and error response.
+
+Example conceptual error response:
+
+{
+"error": "Unable to retrieve system information"
+}
+
+Authentication failures should prevent protected operations from continuing.
+
+Backend errors should also be logged where appropriate to assist troubleshooting.
+
+22. API DESIGN ADVANTAGES
+
+---
+
+The REST API architecture provides:
+
+1. Separation between frontend and backend.
+
+2. Reusable monitoring services.
+
+3. JSON-based communication.
+
+4. Easier testing using tools such as curl and Postman.
+
+5. Ability to add additional clients in the future.
+
+6. Centralized backend security.
+
+7. Easier integration with future remote monitoring systems.
+
+8. FUTURE API ENDPOINTS
+
+---
+
+The modular ATLAS architecture can support additional APIs such as:
+
+GET /api/processes
+
+GET /api/services
+
+GET /api/security
+
+GET /api/firewall
+
+GET /api/logs
+
+GET /api/alerts
+
+GET /api/reports
+
+GET /api/settings
+
+Future APIs may also support operations such as:
+
+POST /api/reports
+
+POST /api/alerts
+
+PUT /api/settings
+
+POST /api/services/start
+
+POST /api/services/stop
+
+POST /api/services/restart
+
+24. REAL-TIME COMMUNICATION
+
+---
+
+Socket.IO is included in the ATLAS technology stack and can support real-time communication between the backend and dashboard.
+
+Future monitoring versions can use WebSocket-based communication to push updated system metrics directly to connected clients rather than relying only on repeated HTTP requests.
+
+25. CONCLUSION
+
+---
+
+The ATLAS REST API acts as the communication layer between the frontend dashboard and backend monitoring services.
+
+The currently implemented monitoring endpoints provide system, CPU, memory, disk, and network information.
+
+Firebase Authentication and backend Firebase Admin verification provide the foundation for protected API access, while PostgreSQL integration supports persistent application data.
+
+The modular API architecture allows ATLAS to be expanded with additional monitoring, security, alerting, reporting, service-management, and automation endpoints in future versions.

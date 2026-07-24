@@ -1,0 +1,691 @@
+ATLAS – SECURITY DOCUMENTATION
+==============================
+
+Project Name:
+ATLAS – Unified Infrastructure Monitoring and Security Platform
+
+Developer:
+Jeshwanth Varma M.V.
+
+Project Type:
+MCA Final Project
+
+
+1. INTRODUCTION
+---------------
+
+Security is an important component of ATLAS because the platform provides
+access to infrastructure and system-monitoring information.
+
+ATLAS uses Firebase Authentication for user authentication, Firebase Admin
+SDK for backend token verification, PostgreSQL for application data, and
+Express security middleware for protecting the web application.
+
+The security architecture is designed around authentication, controlled
+backend access, credential protection, database isolation, and separation
+between frontend and backend responsibilities.
+
+
+2. SECURITY ARCHITECTURE
+------------------------
+
+The basic ATLAS security architecture is:
+
+                    USER
+                      |
+                      v
+              ATLAS FRONTEND
+                      |
+                      v
+          FIREBASE AUTHENTICATION
+                      |
+                      v
+              FIREBASE ID TOKEN
+                      |
+                      v
+          AUTHENTICATION MIDDLEWARE
+                      |
+                      v
+           FIREBASE ADMIN SDK
+                      |
+              +-------+-------+
+              |               |
+           VALID            INVALID
+              |               |
+              v               v
+       ALLOW REQUEST      DENY REQUEST
+              |
+              v
+         EXPRESS BACKEND
+              |
+              v
+           POSTGRESQL
+
+
+3. FIREBASE AUTHENTICATION
+--------------------------
+
+ATLAS uses Firebase Authentication as its primary user-authentication
+mechanism.
+
+Authentication functionality includes:
+
+- Email/password login
+- User registration
+- Google authentication
+- Password-reset functionality
+- Authentication persistence
+- Logout
+
+Firebase is responsible for validating user credentials and maintaining
+the authenticated identity of the user.
+
+
+4. EMAIL AND PASSWORD AUTHENTICATION
+------------------------------------
+
+Users can authenticate using a registered email address and password.
+
+The frontend communicates with Firebase Authentication rather than
+directly validating passwords through the ATLAS backend.
+
+This means the ATLAS frontend and backend do not need to manually perform
+password authentication for Firebase-managed users.
+
+
+5. GOOGLE AUTHENTICATION
+------------------------
+
+ATLAS supports Google authentication through Firebase Authentication.
+
+The user selects a Google account and Firebase performs the authentication
+process.
+
+After successful authentication, Firebase provides the authenticated user
+identity to the application.
+
+
+6. PASSWORD RESET
+-----------------
+
+Firebase Authentication provides password-reset functionality.
+
+A registered user can request a password-reset operation using the email
+address associated with the Firebase account.
+
+Password-reset processing is handled through Firebase rather than directly
+through the ATLAS PostgreSQL database.
+
+
+7. FIREBASE ID TOKEN
+--------------------
+
+After successful authentication, Firebase can generate an ID token for
+the authenticated user.
+
+This token can be supplied to protected ATLAS backend requests.
+
+The token allows the backend to determine whether a request originated
+from a valid authenticated Firebase user.
+
+
+8. FIREBASE ADMIN SDK
+---------------------
+
+The ATLAS backend uses the Firebase Admin SDK.
+
+Firebase Admin is initialized on the backend and is responsible for
+server-side Firebase operations such as verifying authentication tokens.
+
+Firebase Admin credentials are never intended to be exposed to frontend
+JavaScript.
+
+
+9. AUTHENTICATION MIDDLEWARE
+----------------------------
+
+The ATLAS backend contains authentication middleware.
+
+The middleware verifies Firebase tokens before allowing protected
+requests to continue.
+
+General flow:
+
+Incoming Request
+      |
+      v
+Authentication Middleware
+      |
+      v
+Extract Authentication Token
+      |
+      v
+Firebase Admin Verification
+      |
+   +--+--+
+   |     |
+ Valid Invalid
+   |     |
+   v     v
+Allow  Reject
+   |
+   v
+Controller
+
+
+10. AUTHENTICATION BACKEND STRUCTURE
+------------------------------------
+
+The ATLAS authentication implementation contains components such as:
+
+backend/src/config/firebase.js
+
+    Initializes Firebase Admin.
+
+
+backend/src/middleware/authMiddleware.js
+
+    Verifies Firebase authentication tokens.
+
+
+backend/src/routes/authRoutes.js
+
+    Defines authentication-related backend routes.
+
+
+backend/src/controllers/authController.js
+
+    Processes authentication-related requests.
+
+
+backend/src/services/authService.js
+
+    Contains authentication business logic.
+
+
+backend/src/repositories/authRepository.js
+
+    Performs PostgreSQL operations related to application users.
+
+
+11. USER SYNCHRONIZATION SECURITY
+---------------------------------
+
+Firebase manages authentication identities while PostgreSQL maintains
+ATLAS application-level user information.
+
+The synchronization flow is:
+
+Firebase Authenticated User
+          |
+          v
+     Firebase Token
+          |
+          v
+Authentication Middleware
+          |
+          v
+Authentication Controller
+          |
+          v
+Authentication Service
+          |
+          v
+Authentication Repository
+          |
+          v
+   PostgreSQL Users Table
+
+The backend performs database operations rather than allowing the browser
+to communicate directly with PostgreSQL.
+
+
+12. POSTGRESQL SECURITY
+-----------------------
+
+ATLAS uses PostgreSQL for persistent application data.
+
+The frontend does not have direct PostgreSQL access.
+
+Database communication follows:
+
+Frontend
+    |
+    v
+Express Backend
+    |
+    v
+Service / Repository
+    |
+    v
+PostgreSQL
+
+This prevents database credentials and direct database connections from
+being exposed to browser users.
+
+
+13. DATABASE APPLICATION USER
+-----------------------------
+
+ATLAS uses a dedicated PostgreSQL application account:
+
+atlas_admin
+
+The account is provided only the database permissions required for the
+application.
+
+During development, PostgreSQL table and sequence permissions were
+configured to allow the backend to perform required database operations.
+
+Using a dedicated application account is preferable to running the
+application using the PostgreSQL superuser.
+
+
+14. ENVIRONMENT VARIABLES
+-------------------------
+
+ATLAS uses environment variables for sensitive backend configuration.
+
+The backend .env file can contain information such as:
+
+PORT
+
+NODE_ENV
+
+DB_HOST
+
+DB_PORT
+
+DB_NAME
+
+DB_USER
+
+DB_PASSWORD
+
+Actual passwords must not be included in documentation or committed to
+public repositories.
+
+Example:
+
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=<database_name>
+DB_USER=atlas_admin
+DB_PASSWORD=<private_password>
+
+
+15. FIREBASE SERVICE ACCOUNT
+----------------------------
+
+The backend Firebase Admin configuration uses a Firebase service-account
+credential.
+
+The development project stores the service-account file in:
+
+backend/firebase/serviceAccountKey.json
+
+This file is HIGHLY SENSITIVE.
+
+It can contain information such as:
+
+- Firebase project identifiers
+- Private key information
+- Service-account credentials
+
+The file must never be:
+
+- Published publicly
+- Added to project documentation
+- Included in screenshots
+- Shared with unauthorized users
+- Committed to a public Git repository
+
+
+16. GIT SECURITY
+----------------
+
+Sensitive files must be excluded from version control.
+
+The project's .gitignore should protect files such as:
+
+.env
+
+serviceAccountKey.json
+
+node_modules/
+
+Other local credential files should also be excluded where appropriate.
+
+Before publishing ATLAS, the repository should be checked for accidentally
+committed credentials.
+
+
+17. HELMET MIDDLEWARE
+---------------------
+
+The ATLAS backend includes Helmet.
+
+Helmet is Express middleware used to configure HTTP security-related
+headers.
+
+It helps reduce exposure to certain common web security problems by
+setting appropriate HTTP response headers.
+
+Helmet forms part of the backend security configuration.
+
+
+18. CORS
+--------
+
+ATLAS includes Cross-Origin Resource Sharing (CORS) middleware.
+
+CORS controls which origins can make requests to the backend when
+cross-origin communication occurs.
+
+CORS configuration should only permit the origins required by the
+application, especially in a production deployment.
+
+Overly permissive CORS configuration should be avoided in production.
+
+
+19. INPUT VALIDATION
+--------------------
+
+The backend dependencies include express-validator.
+
+Input validation can be used to verify information submitted to backend
+routes before processing it.
+
+Validation helps protect application logic from malformed or unexpected
+request data.
+
+Validation should be applied to endpoints that accept user-controlled
+input.
+
+
+20. ROLE-BASED ACCESS STRUCTURE
+-------------------------------
+
+The ATLAS PostgreSQL database includes role support.
+
+The seeded roles are:
+
+Admin
+
+Operator
+
+Viewer
+
+Conceptually:
+
+Admin
+    Full administrative functionality.
+
+Operator
+    Infrastructure monitoring and operational functionality.
+
+Viewer
+    Primarily read-only monitoring access.
+
+The role structure provides the foundation for Role-Based Access Control
+(RBAC).
+
+Advanced enforcement of all role-specific permissions can be expanded in
+future versions.
+
+
+21. AUTHENTICATION VS AUTHORIZATION
+-----------------------------------
+
+Authentication determines:
+
+"Who is the user?"
+
+ATLAS primarily uses Firebase Authentication for this purpose.
+
+
+Authorization determines:
+
+"What is the user allowed to do?"
+
+The Admin, Operator, and Viewer database roles provide the foundation for
+authorization.
+
+These are separate security responsibilities.
+
+
+22. PASSWORD SECURITY
+---------------------
+
+Firebase Authentication manages passwords for Firebase-authenticated
+users.
+
+The ATLAS application should never:
+
+- Store Firebase user passwords in plain text
+- Log user passwords
+- Display passwords
+- Include passwords in documentation
+- Send passwords to PostgreSQL unnecessarily
+
+Older database structures may contain password-related fields, but
+Firebase Authentication is the authentication mechanism used by the
+current implementation.
+
+
+23. FRONTEND SECURITY
+---------------------
+
+The frontend must never contain backend private credentials.
+
+Frontend code may contain configuration required for the Firebase web
+client, but it must never contain:
+
+- Firebase Admin private keys
+- PostgreSQL passwords
+- PostgreSQL administrator credentials
+- serviceAccountKey.json contents
+- Backend secrets
+
+Privileged operations should be performed by the backend.
+
+
+24. BACKEND SECURITY
+--------------------
+
+The backend acts as the trusted application layer between users and
+protected application resources.
+
+Backend security mechanisms include:
+
+- Firebase token verification
+- Authentication middleware
+- PostgreSQL isolation
+- Environment variables
+- Helmet
+- CORS
+- Input-validation support
+- Modular route/controller/service separation
+
+
+25. SECURITY OF MONITORING INFORMATION
+--------------------------------------
+
+Infrastructure-monitoring information can reveal details about the system,
+including:
+
+- Hostname
+- Platform
+- Architecture
+- Resource availability
+- Network information
+- System status
+
+Such information should only be exposed to authorized users when ATLAS is
+deployed outside a controlled development environment.
+
+
+26. ERROR HANDLING
+------------------
+
+Application errors should provide enough information for users to
+understand that an operation failed without unnecessarily exposing
+internal implementation details.
+
+Production error responses should avoid exposing:
+
+- Database passwords
+- SQL queries containing sensitive information
+- Private file paths
+- Firebase private keys
+- Authentication tokens
+- Internal stack traces
+
+
+27. LOGGING SECURITY
+--------------------
+
+Application logging is useful for troubleshooting and auditing.
+
+However, logs should never contain:
+
+- Passwords
+- Private keys
+- Firebase service-account credentials
+- Complete authentication tokens
+- Database passwords
+
+Logs containing sensitive infrastructure information should also be
+protected appropriately.
+
+
+28. SECURITY PRECAUTIONS
+------------------------
+
+Important ATLAS security precautions include:
+
+1. Never expose serviceAccountKey.json.
+
+2. Never publish the backend .env file.
+
+3. Never hard-code database passwords into frontend code.
+
+4. Never store user passwords in plain text.
+
+5. Verify authentication tokens on protected backend routes.
+
+6. Restrict PostgreSQL privileges to those required by ATLAS.
+
+7. Keep Firebase authentication providers properly configured.
+
+8. Validate user-controlled input.
+
+9. Restrict CORS appropriately for deployment.
+
+10. Keep Node.js dependencies updated.
+
+11. Protect monitoring information from unauthorized access.
+
+12. Logout from authenticated sessions on shared computers.
+
+
+29. DEVELOPMENT VS PRODUCTION
+-----------------------------
+
+ATLAS is currently developed and tested primarily in a local WSL2
+environment.
+
+Development configuration should not automatically be considered suitable
+for internet-facing production deployment.
+
+A production deployment would require additional controls such as:
+
+- HTTPS
+- Secure reverse proxy
+- Restricted CORS
+- Firewall configuration
+- Strong database permissions
+- Secret-management solution
+- Security logging
+- Dependency auditing
+- Rate limiting
+- Production error handling
+- Backup strategy
+
+
+30. FUTURE SECURITY ENHANCEMENTS
+--------------------------------
+
+Future ATLAS versions can include:
+
+- Complete RBAC enforcement
+- Failed-login monitoring
+- SSH activity monitoring
+- Firewall monitoring
+- Suspicious-activity detection
+- Security-event dashboard
+- Login history
+- IP-based security information
+- Rate limiting
+- Account lockout policies
+- Multi-factor authentication
+- Security notifications
+- Automated alerts
+- Audit-event analysis
+- HTTPS deployment
+- Centralized secret management
+
+
+31. SECURITY CHECKLIST
+----------------------
+
+Before demonstration or deployment:
+
+[ ] .env is protected.
+
+[ ] serviceAccountKey.json is protected.
+
+[ ] Database password is not exposed.
+
+[ ] Firebase private key is not exposed.
+
+[ ] Authentication works correctly.
+
+[ ] Invalid authentication is rejected.
+
+[ ] Protected routes verify authentication.
+
+[ ] PostgreSQL uses the application account.
+
+[ ] Required database permissions are configured.
+
+[ ] No passwords appear in frontend source.
+
+[ ] No credentials appear in screenshots.
+
+[ ] Sensitive files are excluded from Git.
+
+[ ] Logout functionality works.
+
+[ ] Backend starts without security-related errors.
+
+
+32. CONCLUSION
+--------------
+
+ATLAS implements a layered security architecture centered around Firebase
+Authentication, backend Firebase Admin token verification, controlled
+PostgreSQL access, environment-based configuration, and Express security
+middleware.
+
+Firebase manages user authentication while PostgreSQL stores
+application-specific user and role information.
+
+The browser does not directly communicate with PostgreSQL, and sensitive
+backend credentials such as the Firebase Admin service account and
+database password are kept separate from frontend application code.
+
+The current implementation establishes the core security foundation of
+ATLAS while allowing more advanced authorization, infrastructure-security
+monitoring, auditing, and production security controls to be added in
+future versions.

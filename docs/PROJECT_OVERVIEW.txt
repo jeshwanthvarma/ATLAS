@@ -1,0 +1,479 @@
+# ATLAS – PROJECT OVERVIEW
+
+Project Title:
+ATLAS – Unified Infrastructure Monitoring and Security Platform
+
+Developer:
+Jeshwanth Varma M.V.
+
+Project Type:
+MCA Final Project
+
+Version:
+1.0
+
+1. PROJECT INTRODUCTION
+
+---
+
+ATLAS is a web-based Unified Infrastructure Monitoring and Security Platform designed to provide centralized monitoring of Linux system resources and infrastructure information.
+
+The system provides administrators with a web dashboard through which important system information such as CPU, memory, disk, network, uptime, and system details can be viewed.
+
+ATLAS combines web development, Linux system administration, database management, authentication, monitoring, and security concepts into a single application.
+
+The project is developed using Ubuntu 24.04 LTS through Windows Subsystem for Linux 2 (WSL2).
+
+2. PROBLEM STATEMENT
+
+---
+
+Modern computer systems generate large amounts of infrastructure and system information. Administrators need to continuously monitor resources such as CPU, memory, disk space, network activity, services, and system health.
+
+Without centralized monitoring, administrators may need to use multiple Linux commands or separate tools to understand the condition of a system.
+
+This creates several challenges:
+
+* System information is distributed across different commands and tools.
+* Resource problems may not be immediately visible.
+* Administrators need technical knowledge of multiple Linux utilities.
+* Monitoring information may not be presented in an easy-to-understand graphical form.
+* Authentication and monitoring functionality may exist as separate systems.
+* Expanding a monitoring solution with security, alerts, reports, and automation can become complex.
+
+ATLAS addresses this problem by providing a centralized web-based platform for infrastructure monitoring with an architecture that can also support security monitoring, alerts, reports, and automation.
+
+3. PROPOSED SOLUTION
+
+---
+
+ATLAS provides a centralized monitoring application consisting of:
+
+* Web-based user interface
+* Secure user authentication
+* Node.js/Express backend
+* Linux system monitoring
+* REST APIs
+* PostgreSQL database
+* Monitoring dashboard
+* Modular backend architecture
+
+The backend collects information from the Ubuntu system and exposes it through REST APIs.
+
+The frontend communicates with these APIs and presents the information through the ATLAS dashboard.
+
+Firebase Authentication is used for user authentication, while PostgreSQL stores application-specific user and system information.
+
+4. PROJECT OBJECTIVE
+
+---
+
+The primary objective of ATLAS is to develop a centralized and extensible web-based platform for monitoring Linux infrastructure and providing system information through a user-friendly dashboard.
+
+The project also demonstrates the integration of web technologies, Linux, databases, authentication, system monitoring, and security concepts.
+
+5. SPECIFIC OBJECTIVES
+
+---
+
+The objectives of ATLAS include:
+
+1. Develop a centralized infrastructure monitoring dashboard.
+
+2. Collect system information from an Ubuntu Linux environment.
+
+3. Monitor important resources such as CPU, memory, disk, and network.
+
+4. Develop REST APIs for accessing monitoring information.
+
+5. Implement secure user authentication.
+
+6. Integrate Firebase Authentication with the application.
+
+7. Maintain application user information using PostgreSQL.
+
+8. Implement a modular backend architecture using Node.js and Express.js.
+
+9. Provide a graphical frontend for displaying monitoring information.
+
+10. Create an architecture that can be expanded with security monitoring, alerts, reports, automation, and remote monitoring capabilities.
+
+11. PROJECT SCOPE
+
+---
+
+The current scope of ATLAS focuses primarily on monitoring the Linux environment in which the application is running.
+
+The system includes:
+
+* User authentication
+* User registration
+* Google authentication support
+* Password reset
+* Authentication persistence
+* Backend token verification
+* PostgreSQL user synchronization
+* Dashboard interface
+* System information monitoring
+* CPU monitoring
+* Memory monitoring
+* Disk monitoring
+* Network monitoring
+* REST API architecture
+* PostgreSQL database integration
+
+The architecture also contains foundations for additional modules such as security, alerts, logs, reports, services, and settings.
+
+7. MAJOR FEATURES
+
+---
+
+Major ATLAS features include:
+
+Authentication
+
+```
+
+- Email/password authentication
+- User registration
+- Google authentication
+- Password reset
+- Firebase authentication persistence
+- Backend Firebase token verification
+- PostgreSQL user synchronization
+
+
+System Monitoring
+```
+
+ATLAS provides monitoring functionality for:
+
+* System information
+* CPU
+* Memory
+* Disk
+* Network
+* System uptime
+* Host information
+
+Dashboard
+
+```
+
+The web dashboard provides a centralized interface for viewing system information.
+
+The frontend uses:
+
+- HTML5
+- CSS3
+- JavaScript
+- Chart.js
+- Font Awesome
+
+
+REST API
+~~~~~~~~
+
+Monitoring information is exposed through backend API endpoints.
+
+Important implemented endpoints include:
+
+GET /api/system
+
+GET /api/cpu
+
+GET /api/memory
+
+GET /api/disk
+
+GET /api/network
+
+
+Database
+~~~~~~~~
+
+ATLAS uses PostgreSQL for structured data storage.
+
+Database tables include:
+
+- users
+- roles
+- sessions
+- alerts
+- audit_logs
+- logs
+- network_metrics
+- servers
+- services
+- settings
+- system_metrics
+
+
+8. TECHNOLOGY STACK
+-------------------
+
+Host Operating System:
+Windows 11
+
+Development Environment:
+Windows Subsystem for Linux 2 (WSL2)
+
+Linux Distribution:
+Ubuntu 24.04 LTS
+
+IDE:
+Visual Studio Code
+
+Backend:
+Node.js
+
+Web Framework:
+Express.js
+
+Frontend:
+HTML5
+CSS3
+JavaScript
+
+Database:
+PostgreSQL
+
+Authentication:
+Firebase Authentication
+
+Backend Authentication:
+Firebase Admin SDK
+
+Charts:
+Chart.js
+
+Real-Time Communication Support:
+Socket.IO
+
+Version Control:
+Git
+
+Package Management:
+npm
+
+
+9. BASIC SYSTEM WORKFLOW
+------------------------
+
+The basic ATLAS workflow is:
+
+Step 1:
+The user opens the ATLAS web application.
+
+Step 2:
+The user logs in using the authentication interface.
+
+Step 3:
+Firebase Authentication verifies the user's credentials.
+
+Step 4:
+The authenticated user is allowed to access the ATLAS application.
+
+Step 5:
+The frontend requests monitoring information from the Express.js backend.
+
+Step 6:
+The monitoring service collects system information from Ubuntu.
+
+Step 7:
+The backend returns monitoring information through REST APIs.
+
+Step 8:
+The frontend processes the returned information.
+
+Step 9:
+The information is displayed through the ATLAS dashboard.
+
+
+10. HIGH-LEVEL DATA FLOW
+------------------------
+
+                 USER
+                   |
+                   v
+             WEB BROWSER
+                   |
+                   v
+            ATLAS FRONTEND
+                   |
+          +--------+--------+
+          |                 |
+          v                 v
+      FIREBASE          EXPRESS.JS
+   AUTHENTICATION         BACKEND
+          |                 |
+          |                 v
+          |          MONITORING ENGINE
+          |                 |
+          |                 v
+          |          UBUNTU / WSL2
+          |
+          +---------> AUTH VERIFICATION
+                            |
+                            v
+                       POSTGRESQL
+
+
+11. PROJECT ARCHITECTURE
+------------------------
+
+ATLAS follows a layered and modular architecture.
+
+The major layers are:
+
+1. Presentation Layer
+   Provides the web-based user interface.
+
+2. Authentication Layer
+   Handles user identity and authentication using Firebase.
+
+3. Application Layer
+   Contains the Node.js and Express.js backend.
+
+4. Monitoring Layer
+   Collects infrastructure information from Ubuntu.
+
+5. Database Layer
+   Stores structured application information using PostgreSQL.
+
+6. System Layer
+   Provides access to operating-system resources and monitoring information.
+
+
+12. DEVELOPMENT ENVIRONMENT
+---------------------------
+
+ATLAS is developed using Windows 11 as the host operating system.
+
+WSL2 provides the Linux development environment.
+
+Ubuntu 24.04 LTS runs inside WSL2 and provides the environment for:
+
+- Node.js
+- Express.js
+- PostgreSQL
+- Linux monitoring
+- Git
+- npm
+
+Visual Studio Code with WSL integration is used for development.
+
+
+13. TARGET USERS
+----------------
+
+ATLAS is primarily designed for:
+
+- System administrators
+- Infrastructure administrators
+- Developers
+- IT support teams
+- Students learning infrastructure monitoring
+- Small environments requiring centralized Linux monitoring
+
+
+14. BENEFITS OF ATLAS
+---------------------
+
+ATLAS provides several benefits:
+
+- Centralized system monitoring
+- Browser-based access
+- Simplified visualization of system information
+- Secure authentication
+- Modular architecture
+- PostgreSQL-based structured storage
+- REST API-based communication
+- Easy future expansion
+- Integration of Linux and web technologies
+- Foundation for security monitoring and automation
+
+
+15. CURRENT IMPLEMENTATION
+--------------------------
+
+The current ATLAS implementation includes:
+
+- Project structure and modular backend
+- Express.js backend server
+- PostgreSQL database connectivity
+- Database schema
+- User and role management structure
+- Firebase Authentication integration
+- Firebase Admin SDK integration
+- Authentication middleware
+- Login functionality
+- Registration functionality
+- Google authentication support
+- Password reset support
+- PostgreSQL user synchronization architecture
+- Dashboard frontend
+- System monitoring endpoint
+- CPU monitoring endpoint
+- Memory monitoring endpoint
+- Disk monitoring endpoint
+- Network monitoring endpoint
+
+
+16. FUTURE ENHANCEMENTS
+-----------------------
+
+ATLAS can be extended with:
+
+- Multiple server monitoring
+- Remote monitoring agents
+- Process monitoring
+- Service monitoring and management
+- Advanced network monitoring
+- Firewall monitoring
+- SSH security monitoring
+- Failed login detection
+- Security event analysis
+- Real-time Socket.IO monitoring
+- Automated alerts
+- Email notifications
+- Log analysis
+- Daily reports
+- Weekly reports
+- Monthly reports
+- PDF and CSV export
+- Automated system maintenance
+- Docker deployment
+- Nginx reverse proxy
+- Cloud infrastructure monitoring
+
+
+17. PROJECT SIGNIFICANCE
+------------------------
+
+ATLAS demonstrates the integration of multiple areas of computer science and information technology within one project.
+
+These areas include:
+
+- Web application development
+- Backend API development
+- Linux system administration
+- Database management
+- Authentication
+- Security
+- Infrastructure monitoring
+- Software architecture
+- Networking concepts
+
+Unlike a basic database-oriented CRUD application, ATLAS interacts with the underlying operating system and presents infrastructure information through a centralized web application.
+
+
+18. CONCLUSION
+--------------
+
+ATLAS – Unified Infrastructure Monitoring and Security Platform is designed to provide a centralized solution for monitoring Linux infrastructure through a web-based interface.
+
+The project combines Node.js, Express.js, PostgreSQL, Firebase Authentication, HTML, CSS, JavaScript, and Linux system monitoring into a modular application.
+
+The current version establishes the core authentication, database, dashboard, and monitoring infrastructure while providing a foundation for future security monitoring, alerting, reporting, automation, and multi-server capabilities.
+```

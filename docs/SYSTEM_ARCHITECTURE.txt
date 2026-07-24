@@ -1,0 +1,419 @@
+# ATLAS – SYSTEM ARCHITECTURE
+
+Project Name:
+ATLAS – Unified Infrastructure Monitoring and Security Platform
+
+Developer:
+Jeshwanth Varma M.V.
+
+Project Type:
+MCA Final Project
+
+1. INTRODUCTION
+
+---
+
+ATLAS is a web-based infrastructure monitoring and security platform designed to provide centralized monitoring of Linux system resources, services, network activity, and security-related information.
+
+The system follows a modular architecture in which the frontend, backend, authentication system, monitoring components, and database operate as separate but interconnected layers.
+
+The application is developed and tested using Ubuntu 24.04 LTS running through Windows Subsystem for Linux 2 (WSL2).
+
+2. HIGH-LEVEL ARCHITECTURE
+
+---
+
+The overall architecture of ATLAS can be represented as:
+
+```
+                +----------------------+
+                |        USER          |
+                +----------+-----------+
+                           |
+                           v
+                +----------------------+
+                |     WEB BROWSER      |
+                | Chrome / Edge / etc. |
+                +----------+-----------+
+                           |
+                           v
+                +----------------------+
+                |   ATLAS FRONTEND     |
+                | HTML / CSS / JS      |
+                +----------+-----------+
+                           |
+                +----------+-----------+
+                |                      |
+                v                      v
+      +------------------+     +------------------+
+      |    FIREBASE      |     |   EXPRESS.JS     |
+      | AUTHENTICATION   |     |   REST API       |
+      +--------+---------+     +---------+--------+
+               |                         |
+               +------------+------------+
+                            |
+                            v
+                +----------------------+
+                |   BACKEND MODULES    |
+                +----------+-----------+
+                           |
+          +----------------+----------------+
+          |                |                |
+          v                v                v
+   +-------------+  +-------------+  +-------------+
+   | MONITORING  |  |  SECURITY   |  |  SERVICES   |
+   |   ENGINE    |  |   MODULE    |  | / REPORTS   |
+   +------+------+  +------+------+  +------+------+
+          |                |                |
+          +----------------+----------------+
+                           |
+                +----------+-----------+
+                |                      |
+                v                      v
+      +------------------+    +-------------------+
+      |   POSTGRESQL     |    | UBUNTU / WSL2    |
+      |    DATABASE      |    | SYSTEM RESOURCES |
+      +------------------+    +-------------------+
+```
+
+## 3. PRESENTATION LAYER
+
+The presentation layer provides the graphical interface through which users interact with ATLAS.
+
+Technologies:
+
+* HTML5
+* CSS3
+* JavaScript
+* Chart.js
+* Font Awesome
+* Google Fonts
+
+Major interfaces include:
+
+* Login Page
+* Registration Page
+* Dashboard
+* Monitoring interface
+* System statistics
+* Navigation components
+
+The dashboard presents infrastructure information in a graphical and easily understandable format.
+
+4. AUTHENTICATION LAYER
+
+---
+
+ATLAS uses Firebase Authentication for frontend user authentication.
+
+The authentication system supports functionality such as:
+
+* User registration
+* Email and password login
+* Google authentication
+* Password reset
+* Authentication persistence
+* User logout
+* Authentication token generation
+
+After successful authentication, Firebase provides an authentication token.
+
+The frontend can send this token to the ATLAS backend when accessing protected functionality.
+
+The backend uses Firebase Admin SDK to validate authentication tokens.
+
+Authentication Flow:
+
+User
+|
+v
+Login/Register Page
+|
+v
+Firebase Authentication
+|
+v
+Firebase Authentication Token
+|
+v
+ATLAS Backend
+|
+v
+Firebase Admin Token Verification
+|
+v
+Authenticated User
+
+5. APPLICATION / BACKEND LAYER
+
+---
+
+The backend of ATLAS is developed using:
+
+* Node.js
+* Express.js
+
+The backend is responsible for:
+
+* Processing API requests
+* Authentication verification
+* User synchronization
+* System monitoring
+* Database communication
+* Application business logic
+* Security processing
+
+The backend follows a modular structure containing components such as:
+
+* Config
+* Controllers
+* Middleware
+* Modules
+* Repositories
+* Routes
+* Services
+
+This separation improves maintainability and allows individual ATLAS components to be developed independently.
+
+6. MONITORING LAYER
+
+---
+
+The monitoring layer collects system information from the Ubuntu environment.
+
+ATLAS provides monitoring APIs for information including:
+
+* System information
+* CPU information
+* Memory usage
+* Disk information
+* Network information
+
+Important monitoring endpoints implemented in the project include:
+
+GET /api/system
+
+GET /api/cpu
+
+GET /api/memory
+
+GET /api/disk
+
+GET /api/network
+
+The monitoring backend uses Node.js system capabilities and Linux information to retrieve system statistics.
+
+The collected information is returned to the frontend through REST APIs.
+
+7. DATABASE LAYER
+
+---
+
+ATLAS uses PostgreSQL as its relational database management system.
+
+The database stores application and monitoring-related information.
+
+The database structure includes tables such as:
+
+* users
+* roles
+* sessions
+* alerts
+* audit_logs
+* logs
+* system_metrics
+* network_metrics
+* servers
+* services
+* settings
+
+The backend communicates with PostgreSQL using the Node.js PostgreSQL library.
+
+Database communication is handled through a centralized database configuration and connection pool.
+
+8. USER SYNCHRONIZATION
+
+---
+
+Firebase handles authentication while PostgreSQL maintains application-level user information.
+
+After authentication, ATLAS can synchronize the Firebase user with the PostgreSQL users table.
+
+The process is:
+
+Firebase User
+|
+v
+Authentication Token
+|
+v
+Backend Authentication Middleware
+|
+v
+Authentication Controller
+|
+v
+Authentication Service
+|
+v
+Authentication Repository
+|
+v
+PostgreSQL Users Table
+
+This architecture separates authentication management from application-specific user data.
+
+9. SYSTEM LAYER
+
+---
+
+ATLAS runs in an Ubuntu Linux environment through WSL2.
+
+The system layer provides access to operating-system information required by the monitoring engine.
+
+ATLAS can obtain information related to:
+
+* CPU
+* Memory
+* Disk
+* Network
+* Hostname
+* Architecture
+* System uptime
+
+Node.js system APIs and system-level commands can be used by the monitoring service to collect this information.
+
+10. DATA FLOW
+
+---
+
+The general monitoring data flow is:
+
+Ubuntu / WSL2 System
+|
+v
+Monitoring Service
+|
+v
+Express.js Backend
+|
+v
+REST API
+|
+v
+Frontend JavaScript
+|
+v
+ATLAS Dashboard
+
+The authentication data flow is:
+
+User
+|
+v
+ATLAS Login Page
+|
+v
+Firebase Authentication
+|
+v
+Authentication Token
+|
+v
+Backend Authentication Middleware
+|
+v
+Firebase Admin Verification
+|
+v
+ATLAS Application / PostgreSQL
+
+11. DEVELOPMENT ENVIRONMENT
+
+---
+
+Host Operating System:
+Windows 11
+
+Linux Environment:
+WSL2
+
+Linux Distribution:
+Ubuntu 24.04 LTS
+
+Development Environment:
+Visual Studio Code with WSL integration
+
+Backend:
+Node.js and Express.js
+
+Database:
+PostgreSQL
+
+Authentication:
+Firebase Authentication and Firebase Admin SDK
+
+Frontend:
+HTML5, CSS3 and JavaScript
+
+Charts:
+Chart.js
+
+Version Control:
+Git
+
+12. ARCHITECTURAL ADVANTAGES
+
+---
+
+The ATLAS architecture provides several advantages:
+
+1. Modular Design
+   Monitoring, authentication, database operations, and other functionality are separated into individual components.
+
+2. Separation of Concerns
+   Frontend presentation, backend processing, authentication, and database storage are handled independently.
+
+3. Maintainability
+   Individual modules can be modified without redesigning the entire application.
+
+4. Extensibility
+   Additional monitoring and security modules can be introduced in future versions.
+
+5. Centralized Monitoring
+   System information is presented through a single web-based dashboard.
+
+6. Secure Authentication
+   Firebase Authentication and backend token verification provide a structured authentication mechanism.
+
+7. Relational Data Management
+   PostgreSQL provides structured storage for users, monitoring information, settings, logs, alerts, and related application data.
+
+8. FUTURE ARCHITECTURAL EXTENSIONS
+
+---
+
+The architecture is designed to support future additions such as:
+
+* Multiple server monitoring
+* Real-time Socket.IO updates
+* Advanced security event monitoring
+* Email notifications
+* Alert automation
+* Service management
+* Automated report generation
+* Docker deployment
+* Nginx reverse proxy
+* Remote monitoring agents
+* Advanced log analysis
+* Cloud server monitoring
+
+14. CONCLUSION
+
+---
+
+ATLAS follows a layered and modular system architecture combining a web frontend, Firebase-based authentication, Node.js/Express backend services, PostgreSQL database storage, and Linux system monitoring.
+
+This architecture allows ATLAS to collect infrastructure information from the underlying Ubuntu system, process it through backend services, and present the resulting information through a centralized web dashboard.
+
+The modular structure also provides a foundation for extending ATLAS with additional monitoring, security, reporting, alerting, and automation capabilities in future versions.

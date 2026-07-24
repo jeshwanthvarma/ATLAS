@@ -1,0 +1,436 @@
+# ATLAS – USER MANUAL
+
+Project Name:
+ATLAS – Unified Infrastructure Monitoring and Security Platform
+
+Developer:
+Jeshwanth Varma M.V.
+
+Project Type:
+MCA Final Project
+
+1. INTRODUCTION
+
+---
+
+This user manual explains how to access and use the ATLAS Unified Infrastructure Monitoring and Security Platform.
+
+ATLAS provides a web-based interface for viewing infrastructure and system monitoring information collected from the Ubuntu Linux environment.
+
+2. STARTING ATLAS
+
+---
+
+Before using ATLAS, the backend server and PostgreSQL database must be running.
+
+From the ATLAS backend directory:
+
+cd ~/atlas/backend
+
+Start the application:
+
+npm run dev
+
+During development, ATLAS is available at:
+
+http://localhost:3000
+
+Open this address using a supported web browser such as Google Chrome or Microsoft Edge.
+
+3. LOGIN
+
+---
+
+When ATLAS is opened, the user is presented with the login interface.
+
+To log in:
+
+1. Enter the registered email address.
+
+2. Enter the account password.
+
+3. Click the Login button.
+
+4. Firebase Authentication validates the credentials.
+
+5. After successful authentication, the user can access the ATLAS dashboard.
+
+If authentication fails, the user remains on the authentication interface and an appropriate error may be displayed.
+
+4. USER REGISTRATION
+
+---
+
+New users can create an account using the registration interface.
+
+To register:
+
+1. Open the registration page.
+
+2. Enter the required user information.
+
+3. Enter a valid email address.
+
+4. Create a password.
+
+5. Submit the registration form.
+
+6. Firebase Authentication creates the user account.
+
+7. The account can then be used to access ATLAS.
+
+Application-level user information can also be synchronized with the PostgreSQL database.
+
+5. GOOGLE AUTHENTICATION
+
+---
+
+ATLAS supports Google authentication through Firebase.
+
+To use Google authentication:
+
+1. Select the Google authentication option.
+
+2. Choose the required Google account.
+
+3. Complete the Google authentication process.
+
+4. Firebase verifies the account.
+
+5. After successful authentication, the user can continue to ATLAS.
+
+6. FORGOT PASSWORD
+
+---
+
+If the user forgets the account password, the Firebase password-reset functionality can be used.
+
+General procedure:
+
+1. Select the Forgot Password option.
+
+2. Enter the registered email address.
+
+3. Submit the password-reset request.
+
+4. Firebase processes the password-reset operation.
+
+5. Follow the instructions provided through the registered email account.
+
+6. DASHBOARD
+
+---
+
+The dashboard is the main interface of ATLAS.
+
+It provides centralized access to infrastructure monitoring information.
+
+The dashboard is designed to present information related to:
+
+* System status
+* CPU
+* Memory
+* Disk
+* Network
+* System uptime
+* Host/system information
+
+The information displayed by the dashboard is obtained from the ATLAS backend monitoring APIs.
+
+8. SYSTEM INFORMATION
+
+---
+
+ATLAS collects general information about the Linux system.
+
+The system monitoring functionality can provide information such as:
+
+* Hostname
+* Operating-system platform
+* System architecture
+* System uptime
+* Node.js version
+* CPU cores
+* Total memory
+* Free memory
+
+The backend system endpoint is:
+
+GET /api/system
+
+9. CPU MONITORING
+
+---
+
+The CPU monitoring functionality provides processor-related information collected by the ATLAS backend.
+
+Backend endpoint:
+
+GET /api/cpu
+
+CPU information can be used to understand the current processor condition of the monitored machine.
+
+10. MEMORY MONITORING
+
+---
+
+The memory monitoring functionality provides information about system memory.
+
+Backend endpoint:
+
+GET /api/memory
+
+Memory monitoring helps the user understand the available and utilized memory resources of the system.
+
+11. DISK MONITORING
+
+---
+
+ATLAS provides disk monitoring functionality for obtaining storage-related information.
+
+Backend endpoint:
+
+GET /api/disk
+
+Disk monitoring helps identify the storage condition of the monitored Linux environment.
+
+12. NETWORK MONITORING
+
+---
+
+ATLAS provides network-related monitoring information through the backend.
+
+Backend endpoint:
+
+GET /api/network
+
+This functionality forms the foundation for monitoring network interfaces and network resource information.
+
+13. REFRESHING MONITORING INFORMATION
+
+---
+
+Monitoring information is obtained from the backend APIs.
+
+If information does not appear correctly:
+
+1. Verify that the backend is running.
+
+2. Verify that PostgreSQL is available.
+
+3. Refresh the browser page.
+
+4. Verify that the monitoring APIs respond.
+
+5. Check the browser developer console if necessary.
+
+6. Check the backend terminal for errors.
+
+7. AUTHENTICATION AND ACCESS
+
+---
+
+ATLAS uses Firebase Authentication to identify users.
+
+The backend also uses Firebase Admin SDK for authentication-token verification.
+
+Users should not share:
+
+* Account passwords
+* Authentication tokens
+* Private credentials
+
+Users should log out after completing their work when using a shared computer.
+
+15. LOGOUT
+
+---
+
+To end an authenticated ATLAS session, use the logout functionality provided by the application.
+
+After logout:
+
+* Firebase authentication state is cleared.
+* The user should no longer have authenticated dashboard access.
+* The user can return to the login interface.
+
+16. USER ROLES
+
+---
+
+The ATLAS database provides three application roles:
+
+Admin
+
+Operator
+
+Viewer
+
+These roles provide the database and architectural foundation for role-based access control.
+
+The current implementation primarily focuses on authentication and core monitoring functionality, while more advanced role-specific permissions can be expanded in future versions.
+
+17. TROUBLESHOOTING
+
+---
+
+Problem:
+ATLAS does not open.
+
+Solution:
+
+* Verify that the backend is running.
+* Verify the correct localhost port.
+* Check the backend terminal for errors.
+
+Problem:
+Unable to login.
+
+Solution:
+
+* Verify the email address.
+* Verify the password.
+* Check the internet connection required by Firebase Authentication.
+* Verify Firebase configuration.
+
+Problem:
+Dashboard remains in a loading state.
+
+Solution:
+
+* Refresh the page.
+* Check the browser developer console.
+* Verify backend API responses.
+* Verify authentication status.
+* Check the backend terminal for errors.
+
+Problem:
+Monitoring information is unavailable.
+
+Solution:
+
+Test the monitoring APIs directly:
+
+curl http://localhost:3000/api/system
+
+curl http://localhost:3000/api/cpu
+
+curl http://localhost:3000/api/memory
+
+curl http://localhost:3000/api/disk
+
+curl http://localhost:3000/api/network
+
+Problem:
+Database-related error appears.
+
+Solution:
+
+Verify PostgreSQL:
+
+sudo systemctl status postgresql
+
+Also verify that:
+
+* Database credentials are correct.
+* Required tables exist.
+* The database user has appropriate permissions.
+
+18. USER SECURITY GUIDELINES
+
+---
+
+Users should follow basic security practices:
+
+* Use a secure password.
+* Do not share login credentials.
+* Do not expose authentication tokens.
+* Logout when finished.
+* Do not modify backend credentials.
+* Do not share Firebase Admin credentials.
+* Do not expose database passwords.
+
+19. CURRENT USER FEATURES
+
+---
+
+The current ATLAS application provides or supports:
+
+* User login
+* User registration
+* Google authentication
+* Password-reset functionality
+* Authentication persistence
+* Logout
+* Dashboard access
+* System monitoring
+* CPU monitoring
+* Memory monitoring
+* Disk monitoring
+* Network monitoring
+
+20. FUTURE USER FEATURES
+
+---
+
+The ATLAS architecture can be extended with:
+
+* Advanced alert dashboard
+* Security monitoring
+* SSH activity
+* Firewall information
+* Service monitoring
+* Process monitoring
+* Historical monitoring charts
+* Report generation
+* PDF reports
+* CSV exports
+* Notifications
+* Multiple-server monitoring
+* Remote server monitoring
+* Advanced role-based permissions
+* Automated administrative operations
+
+21. BASIC USER WORKFLOW
+
+---
+
+The normal ATLAS user workflow is:
+
+Start ATLAS
+|
+v
+Open Web Browser
+|
+v
+ATLAS Login
+|
+v
+Firebase Authentication
+|
+v
+ATLAS Dashboard
+|
+v
+View System Information
+|
++------> CPU
+|
++------> Memory
+|
++------> Disk
+|
++------> Network
+|
+v
+Logout
+
+22. CONCLUSION
+
+---
+
+ATLAS provides a browser-based interface for accessing Linux infrastructure monitoring information.
+
+Users authenticate through Firebase Authentication and can access the dashboard to view information collected by the Node.js/Express monitoring backend.
+
+The current version focuses on core authentication and infrastructure monitoring, while the modular architecture provides a foundation for future security monitoring, alerts, reports, automation, service management, and multi-server monitoring.

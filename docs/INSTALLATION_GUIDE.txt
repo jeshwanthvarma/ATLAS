@@ -1,0 +1,625 @@
+# ATLAS – INSTALLATION GUIDE
+
+Project Name:
+ATLAS – Unified Infrastructure Monitoring and Security Platform
+
+Developer:
+Jeshwanth Varma M.V.
+
+Environment:
+Windows 11 + WSL2 + Ubuntu 24.04 LTS
+
+1. INTRODUCTION
+
+---
+
+This document describes the installation and configuration procedure required to run ATLAS in a development environment.
+
+ATLAS uses:
+
+* Windows 11
+* Windows Subsystem for Linux 2 (WSL2)
+* Ubuntu 24.04 LTS
+* Node.js
+* npm
+* Express.js
+* PostgreSQL
+* Firebase Authentication
+* Firebase Admin SDK
+* HTML, CSS and JavaScript
+
+2. SYSTEM REQUIREMENTS
+
+---
+
+Recommended requirements:
+
+Operating System:
+Windows 11
+
+Memory:
+Minimum 4 GB RAM
+8 GB or more recommended
+
+Storage:
+At least 5 GB free space
+
+Internet:
+Required during initial installation and Firebase configuration
+
+Software:
+
+* WSL2
+* Ubuntu 24.04 LTS
+* Visual Studio Code
+* Node.js
+* npm
+* PostgreSQL
+* Git
+* Web browser
+
+3. INSTALL WSL2
+
+---
+
+Open PowerShell as Administrator and run:
+
+wsl --install
+
+Restart Windows if requested.
+
+Verify the installation:
+
+wsl --status
+
+List installed Linux distributions:
+
+wsl --list --verbose
+
+The Ubuntu installation should use WSL version 2.
+
+4. INSTALL UBUNTU
+
+---
+
+Install Ubuntu 24.04 LTS through WSL.
+
+After installation, launch Ubuntu and create the required Linux username and password.
+
+Update packages:
+
+sudo apt update
+
+sudo apt upgrade -y
+
+5. INSTALL DEVELOPMENT TOOLS
+
+---
+
+Install Git:
+
+sudo apt install git -y
+
+Verify:
+
+git --version
+
+Install additional useful utilities where required:
+
+sudo apt install curl build-essential -y
+
+6. INSTALL NODE.JS AND NPM
+
+---
+
+Install the Node.js environment used by the project.
+
+After installation, verify:
+
+node --version
+
+npm --version
+
+ATLAS development used Node.js version 24.x.
+
+A compatible Node.js environment should be used when running the project.
+
+7. INSTALL POSTGRESQL
+
+---
+
+Install PostgreSQL:
+
+sudo apt install postgresql postgresql-contrib -y
+
+Check the service:
+
+sudo systemctl status postgresql
+
+Start PostgreSQL if necessary:
+
+sudo systemctl start postgresql
+
+Verify:
+
+psql --version
+
+8. CREATE THE ATLAS DATABASE
+
+---
+
+Open PostgreSQL:
+
+sudo -u postgres psql
+
+Create the ATLAS database and application user according to the project database configuration.
+
+The backend application user used during development is:
+
+atlas_admin
+
+A strong password should be assigned locally.
+
+Do not store the real PostgreSQL password inside documentation or public source-code repositories.
+
+Exit PostgreSQL using:
+
+\q
+
+9. INITIALIZE DATABASE STRUCTURE
+
+---
+
+The ATLAS project contains SQL files inside its database directory.
+
+Typical files include:
+
+database/schema.sql
+
+database/seed.sql
+
+The schema script creates the required database structures.
+
+The seed script inserts initial information such as application roles.
+
+The roles used by ATLAS include:
+
+* Admin
+* Operator
+* Viewer
+
+Run the scripts against the ATLAS database using PostgreSQL.
+
+The exact database name and connection credentials should match the values configured in the backend environment file.
+
+10. PROJECT DIRECTORY
+
+---
+
+The ATLAS project is maintained inside the Linux development environment.
+
+Example:
+
+~/atlas
+
+Important directories include:
+
+atlas/
+|
++-- backend/
++-- frontend/
++-- database/
++-- docs/
++-- scripts/
++-- tests/
++-- logs/
+
+11. BACKEND INSTALLATION
+
+---
+
+Move to the backend directory:
+
+cd ~/atlas/backend
+
+Install dependencies:
+
+npm install
+
+The backend package contains dependencies required by ATLAS, including technologies such as:
+
+* Express
+* PostgreSQL driver
+* Firebase
+* Firebase Admin
+* Socket.IO
+* systeminformation
+* CORS
+* dotenv
+* Helmet
+* Morgan
+* express-validator
+* cookie-parser
+
+The exact dependency versions are maintained in:
+
+backend/package.json
+
+and:
+
+backend/package-lock.json
+
+12. ENVIRONMENT CONFIGURATION
+
+---
+
+ATLAS uses environment variables for configuration.
+
+Create or configure the backend environment file:
+
+backend/.env
+
+Typical configuration categories include:
+
+PORT
+
+NODE_ENV
+
+Database host
+
+Database port
+
+Database name
+
+Database username
+
+Database password
+
+Never include actual passwords, private keys, or production credentials in documentation.
+
+Example conceptual configuration:
+
+PORT=3000
+NODE_ENV=development
+
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=<database_name>
+DB_USER=atlas_admin
+DB_PASSWORD=<your_database_password>
+
+Values must be replaced with the correct local configuration.
+
+13. FIREBASE PROJECT SETUP
+
+---
+
+ATLAS uses Firebase Authentication.
+
+A Firebase project must be created and configured before Firebase authentication can operate.
+
+The required authentication providers should be enabled in Firebase.
+
+ATLAS supports authentication functionality including:
+
+* Email/password login
+* Email/password registration
+* Google authentication
+* Password reset
+
+14. FRONTEND FIREBASE CONFIGURATION
+
+---
+
+The frontend requires Firebase web application configuration.
+
+The project's frontend Firebase configuration should correspond to the Firebase project being used.
+
+Firebase web configuration allows the browser application to communicate with Firebase Authentication.
+
+Do not confuse the frontend Firebase configuration with the Firebase Admin service account.
+
+The Firebase Admin private service-account credentials must never be exposed through frontend JavaScript.
+
+15. FIREBASE ADMIN CONFIGURATION
+
+---
+
+The ATLAS backend uses the Firebase Admin SDK to verify Firebase authentication tokens.
+
+The development project uses a Firebase service-account file within the backend Firebase configuration area.
+
+Example project location:
+
+backend/firebase/serviceAccountKey.json
+
+IMPORTANT:
+
+This file contains sensitive credentials.
+
+It must:
+
+* Remain private
+* Never be uploaded publicly
+* Never be included in screenshots
+* Never be included in documentation
+* Never be committed to a public Git repository
+
+The backend Firebase configuration loads the credentials and initializes the Firebase Admin SDK.
+
+16. GITIGNORE SECURITY
+
+---
+
+Sensitive files should be excluded from Git.
+
+The project .gitignore should exclude items such as:
+
+node_modules/
+
+.env
+
+serviceAccountKey.json
+
+Other generated files or local credentials should also be excluded where appropriate.
+
+Before publishing the project, verify that no Firebase private key, database password, or other secret is present in Git history.
+
+17. START POSTGRESQL
+
+---
+
+Before starting ATLAS, verify PostgreSQL is running:
+
+sudo systemctl status postgresql
+
+If necessary:
+
+sudo systemctl start postgresql
+
+18. START THE ATLAS BACKEND
+
+---
+
+Move to the backend:
+
+cd ~/atlas/backend
+
+Start the development server:
+
+npm run dev
+
+When correctly configured, the backend starts on the configured port.
+
+During development, ATLAS used:
+
+http://localhost:3000
+
+A successful startup should confirm that the backend server and PostgreSQL database connection are available.
+
+19. OPEN THE APPLICATION
+
+---
+
+Open a web browser on Windows.
+
+Navigate to:
+
+http://localhost:3000
+
+The Express application serves the ATLAS frontend.
+
+The user can then access the login interface and authenticate using the configured Firebase project.
+
+20. TEST AUTHENTICATION
+
+---
+
+Test the authentication workflow:
+
+1. Open the ATLAS login page.
+
+2. Enter a registered email and password.
+
+3. Submit the login form.
+
+4. Firebase Authentication validates the credentials.
+
+5. After successful authentication, the application provides access to the dashboard.
+
+Also test:
+
+* Registration
+* Google authentication
+* Password reset
+* Logout
+
+21. TEST MONITORING APIs
+
+---
+
+Monitoring endpoints can be tested using curl.
+
+System information:
+
+curl http://localhost:3000/api/system
+
+CPU:
+
+curl http://localhost:3000/api/cpu
+
+Memory:
+
+curl http://localhost:3000/api/memory
+
+Disk:
+
+curl http://localhost:3000/api/disk
+
+Network:
+
+curl http://localhost:3000/api/network
+
+Successful responses should return monitoring information in JSON format.
+
+22. VERIFY DATABASE CONNECTION
+
+---
+
+The backend should establish a connection to PostgreSQL during startup.
+
+If database connection errors occur, verify:
+
+* PostgreSQL is running.
+* Database name is correct.
+* Database username is correct.
+* Database password is correct.
+* Database host and port are correct.
+* The application user has the required privileges.
+* Required tables exist.
+
+23. COMMON INSTALLATION PROBLEMS
+
+---
+
+Problem:
+PostgreSQL connection failure.
+
+Check:
+
+* PostgreSQL service
+* .env configuration
+* Database credentials
+* Database permissions
+
+Problem:
+Firebase authentication failure.
+
+Check:
+
+* Firebase project configuration
+* Enabled authentication providers
+* Frontend Firebase configuration
+* Firebase Admin configuration
+
+Problem:
+Permission denied for PostgreSQL table or sequence.
+
+Check that the ATLAS PostgreSQL application user has the required privileges for tables, sequences, and database objects used by the backend.
+
+Problem:
+Monitoring endpoint does not respond.
+
+Check:
+
+* Backend is running.
+* Correct port is being used.
+* Monitoring routes are registered.
+* Required Node.js dependencies are installed.
+
+Problem:
+Dashboard remains in loading state.
+
+Check:
+
+* Browser developer console
+* Backend terminal
+* Monitoring API responses
+* Frontend API configuration
+* Authentication state
+
+24. DEVELOPMENT WORKFLOW
+
+---
+
+A typical development startup procedure is:
+
+1. Start Windows.
+
+2. Open Ubuntu through WSL2.
+
+3. Verify PostgreSQL.
+
+4. Open the ATLAS project using Visual Studio Code with WSL integration.
+
+5. Navigate to:
+
+   ~/atlas/backend
+
+6. Start the backend:
+
+   npm run dev
+
+7. Open:
+
+   http://localhost:3000
+
+8. Login to ATLAS.
+
+9. Verify dashboard and monitoring APIs.
+
+10. SECURITY PRECAUTIONS
+
+---
+
+The following information must never be shared publicly:
+
+* PostgreSQL passwords
+* Firebase Admin private keys
+* Firebase service-account JSON
+* Environment files containing secrets
+* Authentication tokens
+
+Development credentials should be replaced if they are accidentally exposed.
+
+26. INSTALLATION VERIFICATION
+
+---
+
+The ATLAS installation can be considered successful when:
+
+[ ] WSL2 is operational.
+
+[ ] Ubuntu 24.04 LTS is available.
+
+[ ] Node.js and npm are installed.
+
+[ ] PostgreSQL is running.
+
+[ ] ATLAS database exists.
+
+[ ] Database schema has been created.
+
+[ ] Required roles have been seeded.
+
+[ ] Backend dependencies are installed.
+
+[ ] Environment configuration is available.
+
+[ ] Firebase Authentication is configured.
+
+[ ] Firebase Admin SDK initializes correctly.
+
+[ ] Backend connects to PostgreSQL.
+
+[ ] ATLAS backend starts successfully.
+
+[ ] Login page loads.
+
+[ ] Authentication works.
+
+[ ] Dashboard loads.
+
+[ ] Monitoring APIs return system information.
+
+27. CONCLUSION
+
+---
+
+ATLAS requires a Linux development environment, Node.js/Express backend, PostgreSQL database, Firebase Authentication, and a browser-based frontend.
+
+WSL2 with Ubuntu 24.04 LTS provides the Linux environment used to develop and run the application on Windows 11.
+
+After the database, environment configuration, Firebase authentication, backend dependencies, and required credentials are configured, the ATLAS backend can be started using npm and accessed through a web browser.
+
+Sensitive credentials must always remain private and should never be included in project documentation or public repositories.

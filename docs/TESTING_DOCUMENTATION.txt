@@ -1,0 +1,851 @@
+# ATLAS – TESTING DOCUMENTATION
+
+Project Name:
+ATLAS – Unified Infrastructure Monitoring and Security Platform
+
+Developer:
+Jeshwanth Varma M.V.
+
+Project Type:
+MCA Final Project
+
+1. INTRODUCTION
+
+---
+
+Testing is an important stage of the ATLAS development process.
+
+The purpose of testing is to verify that individual components of the application operate correctly and that the frontend, backend, authentication system, PostgreSQL database, and monitoring services can communicate successfully.
+
+Testing during ATLAS development included:
+
+* Backend startup testing
+* PostgreSQL connection testing
+* Authentication testing
+* Registration testing
+* Monitoring API testing
+* Dashboard testing
+* Error and debugging testing
+
+2. TESTING ENVIRONMENT
+
+---
+
+Host Operating System:
+Windows 11
+
+Linux Environment:
+WSL2
+
+Linux Distribution:
+Ubuntu 24.04 LTS
+
+Backend:
+Node.js + Express.js
+
+Database:
+PostgreSQL
+
+Authentication:
+Firebase Authentication + Firebase Admin SDK
+
+Frontend:
+HTML5 + CSS3 + JavaScript
+
+Browser:
+Modern Chromium-based web browser
+
+Backend Development Server:
+http://localhost:3000
+
+3. TESTING APPROACH
+
+---
+
+ATLAS was tested incrementally during development.
+
+Instead of developing the complete application and testing it only at the end, individual components were tested after implementation.
+
+The general process was:
+
+Implement Component
+|
+v
+Start Backend
+|
+v
+Execute Test
+|
+v
+Observe Output
+|
+v
+Identify Error
+|
+v
+Correct Problem
+|
+v
+Retest
+
+4. BACKEND STARTUP TEST
+
+---
+
+Test ID:
+ATLAS-T01
+
+Objective:
+Verify that the Node.js/Express backend starts successfully.
+
+Procedure:
+
+1. Open Ubuntu/WSL2.
+2. Navigate to the backend directory.
+3. Run:
+
+   npm run dev
+
+Expected Result:
+
+The backend should start without terminating because of an application error.
+
+Observed Result:
+
+The backend successfully started using the development server.
+
+Status:
+
+PASS
+
+5. DATABASE CONNECTION TEST
+
+---
+
+Test ID:
+ATLAS-T02
+
+Objective:
+Verify communication between the ATLAS backend and PostgreSQL.
+
+Procedure:
+
+1. Start PostgreSQL.
+2. Start the ATLAS backend.
+3. Observe backend startup output.
+
+Expected Result:
+
+The backend should establish a PostgreSQL connection successfully.
+
+Observed Result:
+
+The backend displayed:
+
+Database Connected Successfully
+
+Status:
+
+PASS
+
+6. DATABASE TABLE TEST
+
+---
+
+Test ID:
+ATLAS-T03
+
+Objective:
+Verify that the required ATLAS database tables exist.
+
+Tables verified during development included:
+
+* users
+* roles
+* sessions
+* alerts
+* audit_logs
+* logs
+* network_metrics
+* servers
+* services
+* settings
+* system_metrics
+
+Expected Result:
+
+The required tables should be available in PostgreSQL.
+
+Observed Result:
+
+The ATLAS database schema contained the required project tables.
+
+Status:
+
+PASS
+
+7. DATABASE ROLE TEST
+
+---
+
+Test ID:
+ATLAS-T04
+
+Objective:
+Verify that the application roles were seeded.
+
+Expected roles:
+
+* Admin
+* Operator
+* Viewer
+
+Expected Result:
+
+The roles table should contain the required ATLAS roles.
+
+Observed Result:
+
+The roles were successfully available in the database.
+
+Status:
+
+PASS
+
+8. SYSTEM INFORMATION API TEST
+
+---
+
+Test ID:
+ATLAS-T05
+
+Endpoint:
+
+GET /api/system
+
+Test command:
+
+curl http://localhost:3000/api/system
+
+Objective:
+
+Verify that ATLAS can retrieve system information from Ubuntu.
+
+Expected Result:
+
+The API should return system information in JSON format.
+
+Observed during development:
+
+The API returned information including:
+
+* Hostname
+* Platform
+* Architecture
+* Uptime
+* Node.js version
+* CPU cores
+* Total memory
+* Free memory
+
+Example output included values such as:
+
+Hostname: Jeshwanth
+Platform: linux
+Architecture: x64
+CPU Cores: 12
+Total Memory: approximately 7.47 GB
+
+Status:
+
+PASS
+
+9. CPU API TEST
+
+---
+
+Test ID:
+ATLAS-T06
+
+Endpoint:
+
+GET /api/cpu
+
+Test command:
+
+curl http://localhost:3000/api/cpu
+
+Objective:
+
+Verify CPU monitoring functionality.
+
+Expected Result:
+
+The backend should return CPU-related monitoring information.
+
+Observed Result:
+
+The CPU monitoring endpoint returned system information successfully during backend testing.
+
+Status:
+
+PASS
+
+10. MEMORY API TEST
+
+---
+
+Test ID:
+ATLAS-T07
+
+Endpoint:
+
+GET /api/memory
+
+Test command:
+
+curl http://localhost:3000/api/memory
+
+Objective:
+
+Verify memory monitoring functionality.
+
+Expected Result:
+
+The backend should return memory information in JSON format.
+
+Observed Result:
+
+The memory monitoring endpoint returned monitoring information successfully.
+
+Status:
+
+PASS
+
+11. DISK API TEST
+
+---
+
+Test ID:
+ATLAS-T08
+
+Endpoint:
+
+GET /api/disk
+
+Test command:
+
+curl http://localhost:3000/api/disk
+
+Objective:
+
+Verify disk monitoring functionality.
+
+Expected Result:
+
+The backend should return disk/storage information.
+
+Observed Result:
+
+The disk monitoring endpoint returned monitoring information during testing.
+
+Status:
+
+PASS
+
+12. NETWORK API TEST
+
+---
+
+Test ID:
+ATLAS-T09
+
+Endpoint:
+
+GET /api/network
+
+Test command:
+
+curl http://localhost:3000/api/network
+
+Objective:
+
+Verify network monitoring functionality.
+
+Expected Result:
+
+The backend should return network-related information.
+
+Observed Result:
+
+The network monitoring endpoint returned information successfully.
+
+Status:
+
+PASS
+
+13. LOGIN PAGE TEST
+
+---
+
+Test ID:
+ATLAS-T10
+
+Objective:
+
+Verify that the ATLAS login interface loads correctly.
+
+Procedure:
+
+1. Start the backend.
+2. Open the ATLAS application in the browser.
+3. Navigate to the login interface.
+
+Expected Result:
+
+The login page should load and allow the user to enter authentication information.
+
+Observed Result:
+
+The ATLAS login interface loaded successfully.
+
+Status:
+
+PASS
+
+14. EMAIL AUTHENTICATION TEST
+
+---
+
+Test ID:
+ATLAS-T11
+
+Objective:
+
+Verify Firebase email/password authentication.
+
+Procedure:
+
+1. Enter a registered email address.
+2. Enter the corresponding password.
+3. Submit the login form.
+
+Expected Result:
+
+Firebase should authenticate valid credentials.
+
+Observed Result:
+
+Successful login was achieved during development after authentication configuration and debugging.
+
+Status:
+
+PASS
+
+15. USER REGISTRATION TEST
+
+---
+
+Test ID:
+ATLAS-T12
+
+Objective:
+
+Verify Firebase user registration.
+
+Procedure:
+
+1. Open the registration interface.
+2. Enter user information.
+3. Provide email and password.
+4. Submit registration.
+
+Expected Result:
+
+Firebase should create the new account when valid information is supplied.
+
+Observed Result:
+
+Registration functionality communicated with Firebase Authentication.
+
+During development, Firebase also correctly returned the error:
+
+auth/email-already-in-use
+
+when attempting to register an email address that already existed.
+
+Status:
+
+PASS
+
+16. AUTHENTICATION ERROR TEST
+
+---
+
+Test ID:
+ATLAS-T13
+
+Objective:
+
+Verify that authentication errors are detected.
+
+Test Scenario:
+
+Attempt to register an email address that already exists.
+
+Expected Result:
+
+The authentication provider should reject duplicate registration.
+
+Observed Result:
+
+Firebase returned:
+
+Firebase: Error (auth/email-already-in-use)
+
+This confirmed that duplicate-account validation was being handled by Firebase Authentication.
+
+Status:
+
+PASS
+
+17. FIREBASE BACKEND VERIFICATION TEST
+
+---
+
+Test ID:
+ATLAS-T14
+
+Objective:
+
+Verify that the backend Firebase Admin integration can support authentication-token verification.
+
+Expected Result:
+
+The backend authentication middleware should verify Firebase authentication tokens before allowing protected requests.
+
+Observed Result:
+
+Firebase Admin SDK and authentication middleware were configured within the backend authentication architecture.
+
+Status:
+
+IMPLEMENTED / INTEGRATION TESTED DURING AUTHENTICATION DEVELOPMENT
+
+18. USER DATABASE SYNCHRONIZATION TEST
+
+---
+
+Test ID:
+ATLAS-T15
+
+Objective:
+
+Verify synchronization between Firebase authenticated users and PostgreSQL application users.
+
+Architecture tested:
+
+Firebase User
+|
+v
+Authentication Middleware
+|
+v
+Authentication Controller
+|
+v
+Authentication Service
+|
+v
+Authentication Repository
+|
+v
+PostgreSQL
+
+During development, database permissions were identified as an issue while inserting user information.
+
+An error involving:
+
+permission denied for sequence users_user_id_seq
+
+was encountered.
+
+Database permissions were subsequently investigated and configured for the ATLAS PostgreSQL application user.
+
+Status:
+
+DEBUGGED / INTEGRATED
+
+19. DASHBOARD ACCESS TEST
+
+---
+
+Test ID:
+ATLAS-T16
+
+Objective:
+
+Verify access to the dashboard after authentication.
+
+Expected Result:
+
+A successfully authenticated user should be able to proceed to the ATLAS dashboard.
+
+Observed Result:
+
+Successful login and dashboard access were achieved during authentication development.
+
+Status:
+
+PASS
+
+20. DASHBOARD MONITORING TEST
+
+---
+
+Test ID:
+ATLAS-T17
+
+Objective:
+
+Verify that monitoring information can be obtained for dashboard use.
+
+Expected Result:
+
+The frontend should request information from monitoring APIs and display it through the dashboard.
+
+Observed Result:
+
+Backend monitoring endpoints were operational.
+
+During development, a frontend issue was also identified where some dashboard components remained in a loading state even though backend monitoring APIs were returning information.
+
+Status:
+
+PARTIAL / FRONTEND INTEGRATION REQUIRED DEBUGGING
+
+21. POSTGRESQL PERMISSION TESTING
+
+---
+
+Test ID:
+ATLAS-T18
+
+Objective:
+
+Verify that the atlas_admin database account has the permissions required by the application.
+
+Observed Problem:
+
+A PostgreSQL sequence permission error was encountered:
+
+permission denied for sequence users_user_id_seq
+
+Action Taken:
+
+Database ownership and privileges were investigated and GRANT operations were used during debugging.
+
+Result:
+
+The problem identified the need for both table and sequence permissions when the backend inserts records using PostgreSQL-generated IDs.
+
+Status:
+
+DEBUGGED
+
+22. API AVAILABILITY TEST
+
+---
+
+Test ID:
+ATLAS-T19
+
+Objective:
+
+Verify that all major monitoring endpoints are available while the backend is running.
+
+Endpoints:
+
+/api/system
+/api/cpu
+/api/memory
+/api/disk
+/api/network
+
+Expected Result:
+
+Each endpoint should respond without the backend terminating.
+
+Observed Result:
+
+Monitoring API responses were obtained successfully during development.
+
+Status:
+
+PASS
+
+23. STATIC FRONTEND TEST
+
+---
+
+Test ID:
+ATLAS-T20
+
+Objective:
+
+Verify that the Express backend can serve ATLAS frontend files.
+
+Observed backend requests included successful responses such as:
+
+GET / 200
+
+and requests for frontend CSS resources.
+
+Expected Result:
+
+Frontend HTML, CSS and JavaScript resources should be served through the application.
+
+Observed Result:
+
+The frontend was successfully served by Express.
+
+Status:
+
+PASS
+
+24. TEST SUMMARY
+
+---
+
+## Test ID      Component                         Result
+
+ATLAS-T01    Backend startup                   PASS
+
+ATLAS-T02    PostgreSQL connection             PASS
+
+ATLAS-T03    Database tables                   PASS
+
+ATLAS-T04    Database roles                    PASS
+
+ATLAS-T05    System API                        PASS
+
+ATLAS-T06    CPU API                           PASS
+
+ATLAS-T07    Memory API                        PASS
+
+ATLAS-T08    Disk API                          PASS
+
+ATLAS-T09    Network API                       PASS
+
+ATLAS-T10    Login page                        PASS
+
+ATLAS-T11    Email authentication              PASS
+
+ATLAS-T12    Registration                      PASS
+
+ATLAS-T13    Duplicate email handling          PASS
+
+ATLAS-T14    Firebase backend verification     IMPLEMENTED
+
+ATLAS-T15    User DB synchronization           DEBUGGED / INTEGRATED
+
+ATLAS-T16    Dashboard access                  PASS
+
+ATLAS-T17    Dashboard monitoring              PARTIAL
+
+ATLAS-T18    PostgreSQL permissions            DEBUGGED
+
+ATLAS-T19    API availability                  PASS
+
+ATLAS-T20    Static frontend serving           PASS
+
+25. ISSUES IDENTIFIED DURING TESTING
+
+---
+
+Testing helped identify several important development issues.
+
+These included:
+
+1. PostgreSQL authentication/configuration problems.
+
+2. PostgreSQL sequence permission errors.
+
+3. Firebase duplicate-email errors.
+
+4. Frontend/backend authentication integration problems.
+
+5. Dashboard components remaining in a loading state.
+
+6. Database user synchronization issues.
+
+7. Authentication routing and token verification configuration.
+
+These issues were investigated incrementally during development.
+
+26. TESTING TOOLS
+
+---
+
+Tools and techniques used during ATLAS testing included:
+
+* curl
+* Web browser
+* Browser developer tools
+* PostgreSQL command-line interface (psql)
+* Backend console output
+* Node.js development server
+* Firebase Authentication responses
+* Direct API endpoint testing
+
+27. FINAL VERIFICATION CHECKLIST
+
+---
+
+Before final deployment or demonstration, verify:
+
+[ ] PostgreSQL service is running.
+
+[ ] Backend connects to PostgreSQL.
+
+[ ] Backend starts successfully.
+
+[ ] Login page loads.
+
+[ ] Registration page loads.
+
+[ ] Valid login works.
+
+[ ] Invalid authentication is rejected.
+
+[ ] Dashboard opens after authentication.
+
+[ ] /api/system responds.
+
+[ ] /api/cpu responds.
+
+[ ] /api/memory responds.
+
+[ ] /api/disk responds.
+
+[ ] /api/network responds.
+
+[ ] Logout works.
+
+[ ] No private credentials are visible.
+
+[ ] Browser console contains no critical application errors.
+
+[ ] Backend console contains no critical errors.
+
+28. CONCLUSION
+
+---
+
+ATLAS was tested incrementally throughout development.
+
+Core backend functionality, PostgreSQL connectivity, Firebase authentication, frontend serving, and the main monitoring APIs were successfully implemented and tested.
+
+Testing also identified integration issues involving database permissions, Firebase authentication, user synchronization, and dashboard data loading.
+
+These results demonstrate that the core ATLAS infrastructure is operational while also identifying areas that can be improved in future development and testing.

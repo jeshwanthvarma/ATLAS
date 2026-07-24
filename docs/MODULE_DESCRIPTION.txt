@@ -1,0 +1,571 @@
+# ATLAS – MODULE DESCRIPTION
+
+Project Name:
+ATLAS – Unified Infrastructure Monitoring and Security Platform
+
+Developer:
+Jeshwanth Varma M.V.
+
+Project Type:
+MCA Final Project
+
+1. INTRODUCTION
+
+---
+
+ATLAS is organized using a modular architecture. Each module is responsible for a specific part of the infrastructure monitoring and management system.
+
+The major modules of ATLAS include:
+
+1. Authentication Module
+
+2. Dashboard Module
+
+3. System Monitoring Module
+
+4. CPU Monitoring Module
+
+5. Memory Monitoring Module
+
+6. Disk Monitoring Module
+
+7. Network Monitoring Module
+
+8. Database Module
+
+9. Security Module
+
+10. Alert and Logging Module
+
+11. Reports Module
+
+12. Settings Module
+
+13. AUTHENTICATION MODULE
+
+---
+
+Purpose:
+
+The Authentication Module controls user registration, login, identity verification, session persistence, and access to protected functionality.
+
+Technologies:
+
+* Firebase Authentication
+* Firebase Admin SDK
+* JavaScript
+* Node.js
+* Express.js
+* PostgreSQL
+
+Main Functions:
+
+* Email/password login
+* User registration
+* Google authentication
+* Password reset
+* Authentication persistence
+* Firebase token generation
+* Backend token verification
+* User synchronization with PostgreSQL
+* Logout
+
+Authentication Flow:
+
+User
+|
+v
+Login/Register Page
+|
+v
+Firebase Authentication
+|
+v
+Firebase Token
+|
+v
+Backend Authentication Middleware
+|
+v
+Firebase Admin SDK
+|
+v
+Authenticated Request
+
+3. DASHBOARD MODULE
+
+---
+
+Purpose:
+
+The Dashboard Module provides the main interface through which users view infrastructure information.
+
+The dashboard is designed to display important monitoring information in one centralized location.
+
+Dashboard information includes:
+
+* CPU information
+* Memory information
+* Disk information
+* Network information
+* System status
+* System uptime
+* Monitoring statistics
+
+Technologies:
+
+* HTML5
+* CSS3
+* JavaScript
+* Chart.js
+* Font Awesome
+
+The dashboard communicates with backend APIs to obtain monitoring information.
+
+4. SYSTEM MONITORING MODULE
+
+---
+
+Purpose:
+
+The System Monitoring Module collects general information about the machine running ATLAS.
+
+Implemented Endpoint:
+
+GET /api/system
+
+Information collected includes:
+
+* Hostname
+* Platform
+* System architecture
+* System uptime
+* Node.js version
+* CPU cores
+* Total memory
+* Free memory
+
+Example data flow:
+
+Ubuntu System
+|
+v
+Monitoring Service
+|
+v
+Monitoring Controller
+|
+v
+Express API
+|
+v
+Dashboard
+
+5. CPU MONITORING MODULE
+
+---
+
+Purpose:
+
+The CPU Monitoring Module obtains processor-related information from the system.
+
+Implemented Endpoint:
+
+GET /api/cpu
+
+The module is responsible for providing CPU information that can be displayed by the ATLAS dashboard.
+
+CPU monitoring forms an important part of infrastructure monitoring because high processor utilization can indicate excessive workload or performance problems.
+
+6. MEMORY MONITORING MODULE
+
+---
+
+Purpose:
+
+The Memory Monitoring Module obtains system memory information.
+
+Implemented Endpoint:
+
+GET /api/memory
+
+The module provides memory-related information to the frontend.
+
+Memory monitoring allows administrators to identify resource usage and determine whether sufficient system memory remains available.
+
+7. DISK MONITORING MODULE
+
+---
+
+Purpose:
+
+The Disk Monitoring Module retrieves storage information from the Linux environment.
+
+Implemented Endpoint:
+
+GET /api/disk
+
+The module allows ATLAS to obtain disk-related information for presentation through the monitoring dashboard.
+
+Disk monitoring is useful for detecting storage capacity problems before they affect applications or system operation.
+
+8. NETWORK MONITORING MODULE
+
+---
+
+Purpose:
+
+The Network Monitoring Module collects information related to the system's network resources.
+
+Implemented Endpoint:
+
+GET /api/network
+
+Network monitoring information can be used by the frontend to present network-related statistics.
+
+The architecture allows this module to be extended in the future to support additional information such as:
+
+* Network interfaces
+* Bandwidth utilization
+* Upload/download statistics
+* IP information
+* Connection monitoring
+
+9. DATABASE MODULE
+
+---
+
+Purpose:
+
+The Database Module provides persistent storage for ATLAS application information.
+
+Database Management System:
+
+PostgreSQL
+
+Important database tables include:
+
+* users
+* roles
+* sessions
+* alerts
+* audit_logs
+* logs
+* network_metrics
+* servers
+* services
+* settings
+* system_metrics
+
+The Node.js backend communicates with PostgreSQL through a database connection pool.
+
+The database module is responsible for supporting operations such as:
+
+* User storage
+* Role management
+* Application settings
+* Monitoring information
+* Logs
+* Alerts
+* Audit information
+
+10. USER SYNCHRONIZATION MODULE
+
+---
+
+Purpose:
+
+Firebase Authentication manages user identities, while PostgreSQL stores application-specific user records.
+
+When an authenticated Firebase user communicates with ATLAS, the backend can synchronize that account with the PostgreSQL database.
+
+Main components include:
+
+* Authentication Route
+* Authentication Middleware
+* Authentication Controller
+* Authentication Service
+* Authentication Repository
+
+Flow:
+
+Firebase User
+|
+v
+Authentication Middleware
+|
+v
+Authentication Controller
+|
+v
+Authentication Service
+|
+v
+Authentication Repository
+|
+v
+PostgreSQL
+
+11. SECURITY MODULE
+
+---
+
+Purpose:
+
+The Security Module provides the architectural foundation for security monitoring and protected application access.
+
+Currently, the main implemented security component is the authentication and token-verification system.
+
+Security mechanisms include:
+
+* Firebase Authentication
+* Backend Firebase token verification
+* Protected backend routes
+* User identity validation
+* Application user synchronization
+* Environment-based configuration
+
+The ATLAS architecture is designed to support future security monitoring features including:
+
+* Failed login monitoring
+* SSH activity monitoring
+* Firewall status
+* Suspicious activity detection
+* Security events
+* Blocked IP monitoring
+
+12. ALERT MODULE
+
+---
+
+Purpose:
+
+The Alert Module is designed to provide notifications when monitored resources exceed configured limits or when important system events occur.
+
+The database includes infrastructure for storing alerts.
+
+Example future alert conditions include:
+
+* High CPU utilization
+* High memory utilization
+* Low disk space
+* Service failure
+* Security event
+* Failed authentication activity
+
+The alert architecture can later be extended to support dashboard notifications, email notifications, and automated actions.
+
+13. LOGGING AND AUDIT MODULE
+
+---
+
+Purpose:
+
+The Logging and Audit Module is intended to maintain records of system and application events.
+
+Relevant database structures include:
+
+* logs
+* audit_logs
+
+Logging can help administrators investigate:
+
+* Application activity
+* System events
+* User actions
+* Errors
+* Security events
+
+This module provides a foundation for more advanced log analysis in future versions of ATLAS.
+
+14. REPORTS MODULE
+
+---
+
+Purpose:
+
+The Reports Module is designed to convert collected monitoring information into structured reports.
+
+The architecture supports future reports such as:
+
+* Daily monitoring report
+* Weekly monitoring report
+* Monthly monitoring report
+* System performance report
+* Security report
+
+Future export formats may include:
+
+* PDF
+* CSV
+
+Advanced report generation remains an extension of the current ATLAS implementation.
+
+15. SETTINGS MODULE
+
+---
+
+Purpose:
+
+The Settings Module provides the architectural foundation for storing configurable application values.
+
+The PostgreSQL database contains a settings table for storing application configuration.
+
+Future settings may include:
+
+* Monitoring intervals
+* Alert thresholds
+* User preferences
+* Notification configuration
+* Dashboard configuration
+* System configuration
+
+16. BACKEND MODULE ORGANIZATION
+
+---
+
+ATLAS separates backend responsibilities into different folders and components.
+
+Important backend areas include:
+
+config/
+Application, database, and Firebase configuration.
+
+controllers/
+Processes incoming requests and produces responses.
+
+middleware/
+Processes requests before they reach controllers.
+Authentication verification is an important example.
+
+modules/
+Contains feature-specific application functionality.
+
+repositories/
+Handles database queries and persistence operations.
+
+routes/
+Defines backend API routes.
+
+services/
+Contains application business logic.
+
+app.js
+Configures the Express application.
+
+server.js
+Starts the ATLAS backend server.
+
+17. FRONTEND MODULE ORGANIZATION
+
+---
+
+The frontend contains the user-facing ATLAS interface.
+
+Important components include:
+
+login.html
+Provides the user login interface.
+
+register.html
+Provides the user registration interface.
+
+dashboard.html
+Provides the main monitoring dashboard.
+
+css/
+Contains application styles.
+
+js/
+Contains frontend application logic, authentication logic, API communication, and dashboard functionality.
+
+config/
+Contains frontend configuration where applicable.
+
+18. MODULE INTERACTION
+
+---
+
+The major ATLAS modules interact as follows:
+
+```
+                USER
+                  |
+                  v
+           ATLAS FRONTEND
+                  |
+      +-----------+-----------+
+      |                       |
+      v                       v
+  FIREBASE                REST API
+      |                       |
+      v                       v
+```
+
+AUTHENTICATION          EXPRESS BACKEND
+|
++-------------+-------------+
+|             |             |
+v             v             v
+AUTH MODULE    MONITORING     DATABASE
+|             |             |
++-------------+-------------+
+|
+v
+UBUNTU SYSTEM
+
+19. CURRENT IMPLEMENTATION
+
+---
+
+The major implemented areas of the ATLAS project include:
+
+* Node.js/Express backend
+* PostgreSQL database connectivity
+* Database schema
+* User and role database structure
+* Firebase Authentication integration
+* Firebase Admin backend integration
+* Authentication middleware
+* User synchronization architecture
+* Login functionality
+* Registration functionality
+* Google authentication support
+* Password reset functionality
+* Dashboard interface
+* System monitoring API
+* CPU monitoring API
+* Memory monitoring API
+* Disk monitoring API
+* Network monitoring API
+
+20. FUTURE MODULE ENHANCEMENTS
+
+---
+
+The modular design allows ATLAS to be expanded with:
+
+* Multiple server monitoring
+* Remote monitoring agents
+* Advanced security monitoring
+* Service control
+* Process monitoring
+* Real-time Socket.IO updates
+* Automated alerts
+* Email notifications
+* Advanced log analysis
+* Scheduled reports
+* PDF/CSV report generation
+* Docker deployment
+* Nginx reverse proxy
+* Cloud infrastructure monitoring
+
+21. CONCLUSION
+
+---
+
+ATLAS uses a modular design to separate authentication, monitoring, database operations, frontend presentation, security, alerts, logs, reports, and configuration.
+
+The current implementation focuses on the core infrastructure required for authentication, database integration, dashboard functionality, and Linux system monitoring.
+
+The modular structure makes the system easier to maintain and provides a strong foundation for adding more advanced infrastructure monitoring and security capabilities in future versions.

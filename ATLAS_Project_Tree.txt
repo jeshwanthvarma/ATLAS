@@ -1,0 +1,125 @@
+.
+├── .gitignore
+├── ATLAS_Project_Tree.txt
+├── LICENSE
+├── README.md
+├── atlas_tree.txt
+├── backend
+│   ├── .env
+│   ├── .env.example
+│   ├── core
+│   │   ├── config
+│   │   ├── database
+│   │   ├── middleware
+│   │   └── utils
+│   ├── firebase
+│   │   └── serviceAccountKey.json
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── routes
+│   └── src
+│       ├── app.js
+│       ├── config
+│       │   ├── database.js
+│       │   └── firebase.js
+│       ├── controllers
+│       │   └── authController.js
+│       ├── core
+│       │   ├── config
+│       │   ├── database
+│       │   ├── middleware
+│       │   └── utils
+│       ├── middleware
+│       │   └── authMiddleware.js
+│       ├── models
+│       │   └── userModel.js
+│       ├── modules
+│       │   ├── auth
+│       │   ├── dashboard
+│       │   ├── monitoring
+│       │   │   ├── monitoringController.js
+│       │   │   ├── monitoringRoutes.js
+│       │   │   └── monitoringService.js
+│       │   ├── reports
+│       │   ├── security
+│       │   │   ├── securityController.js
+│       │   │   ├── securityRoutes.js
+│       │   │   └── securityService.js
+│       │   └── settings
+│       ├── repositories
+│       │   └── authRepository.js
+│       ├── routes
+│       │   ├── authRoutes.js
+│       │   ├── index.js
+│       │   └── monitoring.js
+│       ├── server.js
+│       ├── services
+│       │   └── authService.js
+│       └── validators
+│           └── authValidator.js
+├── database
+│   ├── README.md
+│   ├── backups
+│   ├── migrations
+│   ├── schema.sql
+│   ├── seed.sql
+│   └── seeds
+├── design
+├── docs
+│   ├── API_DOCUMENTATION.txt
+│   ├── DATABASE_DOCUMENTATION.txt
+│   ├── INSTALLATION_GUIDE.txt
+│   ├── MODULE_DESCRIPTION.txt
+│   ├── PROJECT_OVERVIEW.txt
+│   ├── SECURITY_DOCUMENTATION.txt
+│   ├── SYSTEM_ARCHITECTURE.txt
+│   ├── TESTING_DOCUMENTATION.txt
+│   └── USER_MANUAL.txt
+├── firebase
+├── frontend
+│   ├── assets
+│   │   ├── css
+│   │   ├── icons
+│   │   ├── images
+│   │   └── js
+│   ├── components
+│   ├── config
+│   │   └── config.js
+│   ├── css
+│   │   ├── dashboard.css
+│   │   ├── login.css
+│   │   ├── main.css
+│   │   ├── pages.css
+│   │   └── variables.css
+│   ├── dashboard.html
+│   ├── index_old.html
+│   ├── js
+│   │   ├── alerts.js
+│   │   ├── api.js
+│   │   ├── auth.js
+│   │   ├── constants.js
+│   │   ├── dashboard.js
+│   │   ├── firebase.js
+│   │   ├── monitoring.js
+│   │   ├── page-common.js
+│   │   ├── reports.js
+│   │   ├── security.js
+│   │   ├── servers.js
+│   │   ├── settings.js
+│   │   └── utils.js
+│   ├── login.html
+│   ├── pages
+│   │   ├── alerts.html
+│   │   ├── monitoring.html
+│   │   ├── reports.html
+│   │   ├── security.html
+│   │   ├── servers.html
+│   │   └── settings.html
+│   ├── register.html
+│   └── services
+├── logs
+├── project-tree.txt
+├── scripts
+└── tests
+
+52 directories, 71 files

@@ -1,0 +1,553 @@
+# ATLAS – DATABASE DOCUMENTATION
+
+Project Name:
+ATLAS – Unified Infrastructure Monitoring and Security Platform
+
+Database:
+PostgreSQL
+
+Developer:
+Jeshwanth Varma M.V.
+
+Project Type:
+MCA Final Project
+
+1. INTRODUCTION
+
+---
+
+ATLAS uses PostgreSQL as its relational database management system.
+
+The database provides persistent storage for user information, roles, sessions, monitoring data, services, alerts, logs, audit information, and application settings.
+
+The database is accessed by the Node.js/Express backend using the PostgreSQL Node.js driver.
+
+2. DATABASE PURPOSE
+
+---
+
+The ATLAS database is designed to support:
+
+* User management
+* Role-based access structure
+* Authentication-related application data
+* Session information
+* Server information
+* System monitoring metrics
+* Network monitoring metrics
+* Service information
+* Alerts
+* Application and system logs
+* Audit records
+* Application settings
+
+3. DATABASE ARCHITECTURE
+
+---
+
+The basic database communication flow is:
+
+ATLAS Frontend
+|
+v
+Express.js Backend
+|
+v
+Service Layer
+|
+v
+Repository / Database Logic
+|
+v
+PostgreSQL Database
+
+The frontend does not directly access PostgreSQL.
+
+All database operations are performed through the backend application. This provides separation between the user interface and the database.
+
+4. DATABASE TABLES
+
+---
+
+The ATLAS PostgreSQL database contains the following major tables:
+
+1. roles
+
+2. users
+
+3. sessions
+
+4. servers
+
+5. system_metrics
+
+6. network_metrics
+
+7. services
+
+8. alerts
+
+9. logs
+
+10. audit_logs
+
+11. settings
+
+12. ROLES TABLE
+
+---
+
+Purpose:
+
+The roles table stores the different user roles available within ATLAS.
+
+Roles created for the project include:
+
+* Admin
+* Operator
+* Viewer
+
+The role structure provides the foundation for role-based authorization.
+
+Relationship:
+
+roles
+|
+| role_id
+|
++--------< users
+
+One role can be assigned to multiple users.
+
+6. USERS TABLE
+
+---
+
+Purpose:
+
+The users table stores application-level user information.
+
+Important user information includes fields related to:
+
+* User ID
+* Role ID
+* First name
+* Last name
+* Username
+* Email
+* Password-related information where applicable
+* Firebase user identity where applicable
+* Login information
+
+The table uses a unique user identifier as its primary key.
+
+The role_id field associates a user with a record in the roles table.
+
+Firebase Authentication manages the user's authentication identity, while the users table allows ATLAS to maintain application-specific information about that user.
+
+7. FIREBASE USER SYNCHRONIZATION
+
+---
+
+ATLAS uses Firebase Authentication for user identity verification.
+
+After Firebase authenticates a user, the backend can synchronize the authenticated account with PostgreSQL.
+
+The synchronization architecture is:
+
+Firebase Authentication
+|
+v
+Firebase Authentication Token
+|
+v
+ATLAS Authentication Middleware
+|
+v
+Authentication Controller
+|
+v
+Authentication Service
+|
+v
+Authentication Repository
+|
+v
+PostgreSQL Users Table
+
+The repository can search for an existing user using the email address.
+
+If the user already exists, ATLAS can update relevant login information.
+
+If the user does not exist, an application user record can be created and associated with an appropriate default role.
+
+8. SESSIONS TABLE
+
+---
+
+Purpose:
+
+The sessions table provides database support for storing session-related information.
+
+Session data can be used to associate authenticated activity with application users.
+
+Firebase currently provides the primary authentication mechanism, while the database session structure provides support for application-level session management and future expansion.
+
+9. SERVERS TABLE
+
+---
+
+Purpose:
+
+The servers table stores information related to infrastructure systems monitored by ATLAS.
+
+This structure is useful for representing monitored machines and provides a foundation for future multi-server monitoring.
+
+Future versions of ATLAS can use this table to maintain information about multiple local or remote servers.
+
+10. SYSTEM_METRICS TABLE
+
+---
+
+Purpose:
+
+The system_metrics table provides storage for system monitoring measurements.
+
+Monitoring information may include values associated with:
+
+* CPU
+* Memory
+* Disk
+* System resource utilization
+* Timestamps
+* Monitored servers
+
+The current monitoring APIs can retrieve live system information from the Ubuntu environment.
+
+The system_metrics table provides the database foundation for storing historical monitoring information and generating trends or reports.
+
+11. NETWORK_METRICS TABLE
+
+---
+
+Purpose:
+
+The network_metrics table provides storage for network-related monitoring measurements.
+
+It can support information associated with:
+
+* Network usage
+* Network interfaces
+* Incoming traffic
+* Outgoing traffic
+* Monitoring timestamps
+* Monitored servers
+
+This structure allows ATLAS to be expanded from live network information to historical network monitoring.
+
+12. SERVICES TABLE
+
+---
+
+Purpose:
+
+The services table stores information related to system or application services.
+
+Examples of services that ATLAS may monitor include:
+
+* PostgreSQL
+* SSH
+* Node.js
+* Nginx
+* Apache
+* Docker
+
+The services structure provides a foundation for service monitoring and future service management functionality.
+
+13. ALERTS TABLE
+
+---
+
+Purpose:
+
+The alerts table stores monitoring or security alerts generated by ATLAS.
+
+Example alert conditions may include:
+
+* High CPU usage
+* High memory usage
+* Low disk space
+* Network problems
+* Service failure
+* Security events
+
+The alerts table allows alert information to be maintained independently from live monitoring information.
+
+14. LOGS TABLE
+
+---
+
+Purpose:
+
+The logs table provides structured storage for application or system log information.
+
+Logs can be used for:
+
+* Troubleshooting
+* Monitoring
+* Error analysis
+* System activity review
+* Security analysis
+
+Future ATLAS versions can expand the logging module with searching, filtering, and export functionality.
+
+15. AUDIT_LOGS TABLE
+
+---
+
+Purpose:
+
+The audit_logs table provides a structure for recording important user or application activities.
+
+Audit records are useful for determining:
+
+* What action occurred
+* Which user performed an action
+* When an action occurred
+* Important administrative activity
+
+Audit logging improves accountability and provides useful information for security analysis.
+
+16. SETTINGS TABLE
+
+---
+
+Purpose:
+
+The settings table stores configurable ATLAS application values.
+
+Settings may include:
+
+* Monitoring configuration
+* Alert thresholds
+* Application preferences
+* Dashboard configuration
+* Notification configuration
+* System configuration
+
+Keeping configuration in a database allows settings to be managed without changing application source code.
+
+17. DATABASE RELATIONSHIP OVERVIEW
+
+---
+
+A simplified conceptual relationship can be represented as:
+
+```
+                +-----------+
+                |   ROLES   |
+                +-----+-----+
+                      |
+                      | 1
+                      |
+                      | N
+                +-----v-----+
+                |   USERS   |
+                +-----+-----+
+                      |
+            +---------+---------+
+            |                   |
+            v                   v
+      +----------+        +------------+
+      | SESSIONS |        | AUDIT_LOGS |
+      +----------+        +------------+
+
+
+                +-----------+
+                |  SERVERS  |
+                +-----+-----+
+                      |
+      +---------------+---------------+
+      |               |               |
+      v               v               v
+```
+
++---------------+ +---------------+ +----------+
+|SYSTEM_METRICS | |NETWORK_METRICS| | SERVICES |
++---------------+ +---------------+ +----------+
+
+Other application information is maintained through:
+
++----------+
+|  ALERTS  |
++----------+
+
++----------+
+|   LOGS   |
++----------+
+
++----------+
+| SETTINGS |
++----------+
+
+18. DATABASE CONNECTION
+
+---
+
+The backend database configuration is maintained within the backend source structure.
+
+The database connection uses environment variables rather than permanently embedding database credentials directly into application source code.
+
+Typical configuration values include:
+
+* Database host
+* Database port
+* Database name
+* Database username
+* Database password
+
+The backend uses a PostgreSQL connection pool to manage database connections efficiently.
+
+19. DATABASE SECURITY
+
+---
+
+Important database security practices used or considered within ATLAS include:
+
+* Separate PostgreSQL application user
+* Environment-based database credentials
+* Backend-controlled database access
+* No direct frontend database connection
+* Role structure for application users
+* Authentication verification before protected operations
+* Separation of authentication and application data
+
+Sensitive database credentials should not be committed to public source-code repositories.
+
+20. DATABASE INITIALIZATION
+
+---
+
+The ATLAS project contains database files used to create and initialize the database.
+
+The database directory includes SQL scripts for purposes such as:
+
+* Schema creation
+* Table creation
+* Initial data
+* Role creation
+
+The project has used schema and seed scripts to prepare the PostgreSQL database.
+
+The seeded application roles include:
+
+* Admin
+* Operator
+* Viewer
+
+21. DATABASE USER
+
+---
+
+A dedicated PostgreSQL application account is used by the ATLAS backend.
+
+The application database user is:
+
+atlas_admin
+
+Appropriate database privileges must be granted to this account so that the backend can perform the required operations.
+
+During development, database permissions were configured for tables and related database objects required by the application.
+
+22. DATABASE DATA FLOW
+
+---
+
+A typical database operation follows this flow:
+
+User Action
+|
+v
+Frontend
+|
+v
+Express Route
+|
+v
+Controller
+|
+v
+Service
+|
+v
+Repository
+|
+v
+PostgreSQL
+|
+v
+Result
+|
+v
+Express Response
+|
+v
+Frontend
+
+23. DATABASE DESIGN ADVANTAGES
+
+---
+
+The PostgreSQL database design provides:
+
+1. Structured Storage
+   Application information is maintained using relational tables.
+
+2. Data Integrity
+   Primary keys and relationships provide structured identification of records.
+
+3. Role Support
+   User roles are maintained separately from user accounts.
+
+4. Scalability
+   Monitoring data structures can support increasing amounts of historical information.
+
+5. Extensibility
+   Additional monitoring, reporting, and security tables can be added in future versions.
+
+6. Separation of Responsibilities
+   Firebase handles authentication while PostgreSQL maintains application-specific information.
+
+7. Historical Monitoring Foundation
+   Metric tables provide a foundation for storing monitoring history and generating reports.
+
+8. FUTURE DATABASE ENHANCEMENTS
+
+---
+
+Future improvements may include:
+
+* Historical metric retention policies
+* Database indexes for monitoring queries
+* Automated cleanup of old monitoring records
+* Report storage
+* Notification tables
+* Multiple-server relationships
+* Additional audit information
+* Alert rules
+* User preferences
+* Backup management
+* Database migration versioning
+* Monitoring data aggregation
+
+25. CONCLUSION
+
+---
+
+PostgreSQL forms the persistent data-storage layer of ATLAS.
+
+The database contains structures for users, roles, sessions, servers, system metrics, network metrics, services, alerts, logs, audit records, and settings.
+
+Firebase Authentication handles user identity verification, while PostgreSQL maintains application-specific data.
+
+The database architecture provides ATLAS with a structured foundation for current functionality and future monitoring, security, reporting, alerting, and multi-server capabilities.
