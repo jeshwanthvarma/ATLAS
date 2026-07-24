@@ -1,22 +1,47 @@
 const authService = require("../services/authService");
 
-async function register(req, res) {
-    try {
-        const user = await authService.registerUser(req.body);
+// ======================================================
+// Sync Logged-in Firebase User
+// ======================================================
 
-        res.status(201).json({
+async function syncUser(req, res) {
+
+    try {
+
+        const user = await authService.syncFirebaseUser(
+            req.user
+        );
+
+        res.json({
+
             success: true,
-            message: "User validated successfully",
-            data: user,
+
+            message: "User synchronized successfully",
+
+            data: user
+
         });
-    } catch (error) {
-        res.status(400).json({
-            success: false,
-            message: error.message,
-        });
+
     }
+
+    catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+
+            success: false,
+
+            message: error.message
+
+        });
+
+    }
+
 }
 
 module.exports = {
-    register,
+
+    syncUser
+
 };

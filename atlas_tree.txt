@@ -1,0 +1,103 @@
+.
+├── LICENSE
+├── README.md
+├── atlas_tree.txt
+├── backend
+│   ├── core
+│   │   ├── config
+│   │   ├── database
+│   │   ├── middleware
+│   │   └── utils
+│   ├── firebase
+│   │   └── serviceAccountKey.json
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── routes
+│   └── src
+│       ├── app.js
+│       ├── config
+│       │   ├── database.js
+│       │   └── firebase.js
+│       ├── controllers
+│       │   └── authController.js
+│       ├── core
+│       │   ├── config
+│       │   ├── database
+│       │   ├── middleware
+│       │   └── utils
+│       ├── middleware
+│       │   └── authMiddleware.js
+│       ├── models
+│       │   └── userModel.js
+│       ├── modules
+│       │   ├── auth
+│       │   ├── dashboard
+│       │   ├── monitoring
+│       │   ├── reports
+│       │   ├── security
+│       │   └── settings
+│       ├── repositories
+│       │   └── authRepository.js
+│       ├── routes
+│       │   ├── authRoutes.js
+│       │   ├── index.js
+│       │   └── monitoring.js
+│       ├── server.js
+│       ├── services
+│       │   └── authService.js
+│       └── validators
+│           └── authValidator.js
+├── database
+│   ├── README.md
+│   ├── backups
+│   ├── migrations
+│   ├── schema.sql
+│   ├── seed.sql
+│   └── seeds
+├── design
+├── docs
+│   ├── API_DOCUMENTATION.md
+│   ├── CHANGELOG.md
+│   ├── DATABASE_DESIGN.md
+│   ├── DECISIONS.md
+│   ├── DEVELOPMENT_LOG.md
+│   ├── PROJECT_OVERVIEW.md
+│   ├── PROJECT_TIMELINE.md
+│   ├── SECURITY.md
+│   └── TODO.md
+├── firebase
+├── frontend
+│   ├── assets
+│   │   ├── css
+│   │   ├── icons
+│   │   ├── images
+│   │   └── js
+│   ├── components
+│   ├── config
+│   │   └── config.js
+│   ├── css
+│   │   ├── dashboard.css
+│   │   ├── login.css
+│   │   ├── main.css
+│   │   └── variables.css
+│   ├── dashboard.html
+│   ├── index.html
+│   ├── js
+│   │   ├── api.js
+│   │   ├── auth.js
+│   │   ├── constants.js
+│   │   ├── dashboard.js
+│   │   ├── firebase.js
+│   │   └── utils.js
+│   ├── login.html
+│   ├── pages
+│   ├── register.html
+│   └── services
+├── logs
+├── package-lock.json
+├── package.json
+├── project-tree.txt
+├── scripts
+└── tests
+
+52 directories, 49 files

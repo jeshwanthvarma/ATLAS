@@ -8,28 +8,33 @@
 
     <title>ATLAS Dashboard</title>
 
+    <!-- Dashboard CSS -->
     <link rel="stylesheet" href="css/dashboard.css">
 
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
 
     <!-- Font Awesome -->
-
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
 
 </head>
 
 <body>
 
-<header>
+<div class="layout">
 
-    <div class="layout">
-
-    <!-- Sidebar -->
+    <!-- =====================================================
+         Sidebar
+    ====================================================== -->
 
     <aside class="sidebar">
 
@@ -43,102 +48,344 @@
 
         <nav>
 
-            <a href="#"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+            <a href="/dashboard.html" class="active">
 
-            <a href="#"><i class="fa-solid fa-server"></i> Servers</a>
+                <i class="fa-solid fa-chart-line"></i>
 
-            <a href="#"><i class="fa-solid fa-chart-area"></i> Monitoring</a>
+                <span>Dashboard</span>
 
-            <a href="#"><i class="fa-solid fa-bell"></i> Alerts</a>
+            </a>
 
-            <a href="#"><i class="fa-solid fa-file-lines"></i> Reports</a>
+            <a href="/pages/servers.html">
 
-            <a href="#"><i class="fa-solid fa-shield-halved"></i> Security</a>
+                <i class="fa-solid fa-server"></i>
 
-            <a href="#"><i class="fa-solid fa-gear"></i> Settings</a>
+                <span>Servers</span>
 
-            <a href="login.html"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            </a>
+
+            <a href="/pages/monitoring.html">
+
+                <i class="fa-solid fa-chart-area"></i>
+
+                <span>Monitoring</span>
+
+            </a>
+
+            <a href="/pages/alerts.html">
+
+                <i class="fa-solid fa-bell"></i>
+
+                <span>Alerts</span>
+
+            </a>
+
+            <a href="/pages/reports.html">
+
+                <i class="fa-solid fa-file-lines"></i>
+
+                <span>Reports</span>
+
+            </a>
+
+            <a href="/pages/security.html">
+
+                <i class="fa-solid fa-shield-halved"></i>
+
+                <span>Security</span>
+
+            </a>
+
+            <a href="/pages/settings.html">
+
+                <i class="fa-solid fa-gear"></i>
+
+                <span>Settings</span>
+
+            </a>
+
+            <a href="#" id="logoutBtn">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                <span>Logout</span>
+
+            </a>
 
         </nav>
 
     </aside>
 
-    <!-- Main Content -->
+    <!-- =====================================================
+         Main Content
+    ====================================================== -->
 
     <main class="content">
+
+        <!-- =================================================
+             Top Bar
+        ================================================== -->
 
         <header class="topbar">
 
             <div>
 
-                <h1>Dashboard</h1>
+                <h1>ATLAS Dashboard</h1>
 
-                <p>Infrastructure Monitoring Platform</p>
+                <p>
+                    Real-Time Infrastructure Monitoring Platform
+                </p>
 
             </div>
 
-            <div>
+            <div
+                style="
+                    display:flex;
+                    align-items:center;
+                    gap:20px;
+                "
+            >
 
-                <span>🟢 Backend Online</span>
+                <span class="status-online">
+                    🟢 Backend Online
+                </span>
+
+                <div class="user-profile">
+
+                    <div>
+
+                        <strong id="userName">
+                            Loading...
+                        </strong>
+
+                        <br>
+
+                        <small id="userEmail">
+                            Loading...
+                        </small>
+
+                    </div>
+
+                </div>
 
             </div>
 
         </header>
 
-        
+        <!-- =================================================
+             Live Monitoring Cards
+        ================================================== -->
+
+        <section class="stats-grid">
+
+            <!-- CPU -->
+
+            <div class="stat-card">
+
+                <i class="fa-solid fa-microchip"></i>
+
+                <h3>CPU Usage</h3>
+
+                <h1 id="cpuUsage">
+                    Loading...
+                </h1>
+
+            </div>
+
+            <!-- Memory -->
+
+            <div class="stat-card">
+
+                <i class="fa-solid fa-memory"></i>
+
+                <h3>Memory Usage</h3>
+
+                <h1 id="memoryUsage">
+                    Loading...
+                </h1>
+
+            </div>
+
+            <!-- Disk -->
+
+            <div class="stat-card">
+
+                <i class="fa-solid fa-hard-drive"></i>
+
+                <h3>Disk Usage</h3>
+
+                <h1 id="diskUsage">
+                    Loading...
+                </h1>
+
+            </div>
+
+            <!-- Network -->
+
+            <div class="stat-card">
+
+                <i class="fa-solid fa-network-wired"></i>
+
+                <h3>Network</h3>
+
+                <h1 id="networkStatus">
+                    Loading...
+                </h1>
+
+            </div>
+
+        </section>
+
+        <!-- =================================================
+             System Information
+        ================================================== -->
+
         <section class="panel system-info">
 
-    <h2>System Information</h2>
+            <h2>
+                <i class="fa-solid fa-server"></i>
+                System Information
+            </h2>
 
-    <table>
-        <tr>
-            <td><strong>Hostname</strong></td>
-            <td id="hostname">Loading...</td>
-        </tr>
+            <table>
 
-        <tr>
-            <td><strong>Platform</strong></td>
-            <td id="platform">Loading...</td>
-        </tr>
+                <tr>
 
-        <tr>
-            <td><strong>Architecture</strong></td>
-            <td id="architecture">Loading...</td>
-        </tr>
+                    <td>
+                        <strong>Hostname</strong>
+                    </td>
 
-        <tr>
-            <td><strong>Node Version</strong></td>
-            <td id="nodeVersion">Loading...</td>
-        </tr>
+                    <td id="hostname">
+                        Loading...
+                    </td>
 
-        <tr>
-            <td><strong>Uptime</strong></td>
-            <td id="uptime">Loading...</td>
-        </tr>
+                </tr>
 
-    </table>
+                <tr>
 
-</section>
+                    <td>
+                        <strong>Platform</strong>
+                    </td>
+
+                    <td id="platform">
+                        Loading...
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        <strong>Architecture</strong>
+                    </td>
+
+                    <td id="architecture">
+                        Loading...
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        <strong>Node Version</strong>
+                    </td>
+
+                    <td id="nodeVersion">
+                        Loading...
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        <strong>Uptime</strong>
+                    </td>
+
+                    <td id="uptime">
+                        Loading...
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </section>
+
+        <!-- =================================================
+             Service Monitoring
+        ================================================== -->
+
+        <section class="panel services-panel">
+
+            <div class="services-header">
+
+                <div>
+
+                    <h2>
+                        <i class="fa-solid fa-cubes"></i>
+                        Service Monitoring
+                    </h2>
+
+                    <p>
+                        Linux Infrastructure Services
+                    </p>
+
+                </div>
+
+                <span id="servicesSummary">
+                    Loading...
+                </span>
+
+            </div>
+
+            <div
+                class="services-grid"
+                id="servicesGrid"
+            >
+
+                <div class="service-card">
+                    Loading services...
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- =================================================
+             Charts + Alerts
+        ================================================== -->
 
         <section class="panels">
 
+            <!-- Memory Chart -->
+
             <div class="panel">
 
-                <h2>System Performance</h2>
+                <h2>
+                    <i class="fa-solid fa-chart-line"></i>
+                    Memory Trend
+                </h2>
 
                 <canvas id="cpuChart"></canvas>
 
             </div>
 
+            <!-- Recent Alerts -->
+
             <div class="panel">
 
-                <h2>Recent Alerts</h2>
+                <h2>
+                    <i class="fa-solid fa-bell"></i>
+                    Recent Alerts
+                </h2>
 
-                <ul>
+                <ul id="alertsList">
 
-                    <li>SSH Login</li>
-                    <li>High CPU Usage</li>
-                    <li>Disk Warning</li>
+                    <li>
+                        Loading alerts...
+                    </li>
 
                 </ul>
 
@@ -150,11 +397,28 @@
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- =====================================================
+     Chart.js
+====================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/chart.js">
+</script>
+
+<!-- =====================================================
+     Configuration
+====================================================== -->
 
 <script src="config/config.js"></script>
-<script src="js/api.js"></script>
-<script src="js/dashboard.js"></script>
+
+<!-- =====================================================
+     Dashboard JavaScript
+====================================================== -->
+
+<script
+    type="module"
+    src="js/dashboard.js">
+</script>
 
 </body>
 

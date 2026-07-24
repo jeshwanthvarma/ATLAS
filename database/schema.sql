@@ -28,16 +28,22 @@ CREATE TABLE roles (
 -- =====================================================
 
 CREATE TABLE users (
+
     user_id SERIAL PRIMARY KEY,
+
     role_id INTEGER NOT NULL,
 
+    firebase_uid VARCHAR(128) UNIQUE NOT NULL,
+
     first_name VARCHAR(100) NOT NULL,
+
     last_name VARCHAR(100),
 
-    username VARCHAR(100) NOT NULL UNIQUE,
-    email VARCHAR(255) NOT NULL UNIQUE,
+    username VARCHAR(100) UNIQUE,
 
-    password_hash TEXT NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+
+    auth_provider VARCHAR(30) DEFAULT 'firebase',
 
     is_active BOOLEAN DEFAULT TRUE,
 
@@ -46,10 +52,11 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT fk_users_role
-        FOREIGN KEY (role_id)
+        FOREIGN KEY(role_id)
         REFERENCES roles(role_id)
         ON UPDATE CASCADE
         ON DELETE RESTRICT
+
 );
 -- 3. sessions
 -- =====================================================

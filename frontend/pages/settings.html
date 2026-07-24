@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Settings | ATLAS</title>
+
+    <link rel="stylesheet" href="/css/pages.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <i class="fa-solid fa-satellite-dish"></i>
+            <h2>ATLAS</h2>
+        </div>
+
+        <nav>
+
+            <a href="/dashboard.html">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="/pages/servers.html">
+                <i class="fa-solid fa-server"></i>
+                <span>Servers</span>
+            </a>
+
+            <a href="/pages/monitoring.html">
+                <i class="fa-solid fa-chart-area"></i>
+                <span>Monitoring</span>
+            </a>
+
+            <a href="/pages/alerts.html">
+                <i class="fa-solid fa-bell"></i>
+                <span>Alerts</span>
+            </a>
+
+            <a href="/pages/reports.html">
+                <i class="fa-solid fa-file-lines"></i>
+                <span>Reports</span>
+            </a>
+
+            <a href="/pages/security.html">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Security</span>
+            </a>
+
+            <a href="/pages/settings.html" class="active">
+                <i class="fa-solid fa-gear"></i>
+                <span>Settings</span>
+            </a>
+
+            <a href="#" id="logoutBtn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <!-- Content -->
+
+    <main class="content">
+
+        <header class="topbar">
+
+            <div>
+                <h1>Settings</h1>
+                <p>Account and ATLAS system information</p>
+            </div>
+
+            <div>
+                <strong id="userName">Loading...</strong>
+                <br>
+                <small id="userEmail" class="muted">Loading...</small>
+            </div>
+
+        </header>
+
+        <div class="page-grid">
+
+            <!-- Account -->
+
+            <section class="panel">
+
+                <h2>
+                    <i class="fa-solid fa-user"></i>
+                    Account
+                </h2>
+
+                <table class="data-table">
+
+                    <tbody>
+
+                        <tr>
+                            <th>Display Name</th>
+                            <td id="settingsName">Loading...</td>
+                        </tr>
+
+                        <tr>
+                            <th>Email</th>
+                            <td id="settingsEmail">Loading...</td>
+                        </tr>
+
+                        <tr>
+                            <th>Email Verified</th>
+                            <td id="emailVerified">Loading...</td>
+                        </tr>
+
+                        <tr>
+                            <th>Authentication Provider</th>
+                            <td id="authProvider">Loading...</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </section>
+
+            <!-- Application -->
+
+            <section class="panel">
+
+                <h2>
+                    <i class="fa-solid fa-satellite-dish"></i>
+                    Application
+                </h2>
+
+                <table class="data-table">
+
+                    <tbody>
+
+                        <tr>
+                            <th>Application</th>
+                            <td>ATLAS</td>
+                        </tr>
+
+                        <tr>
+                            <th>Monitoring Refresh</th>
+                            <td>5 seconds</td>
+                        </tr>
+
+                        <tr>
+                            <th>Authentication</th>
+                            <td>Firebase Authentication</td>
+                        </tr>
+
+                        <tr>
+                            <th>Database</th>
+                            <td>PostgreSQL</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </section>
+
+            <!-- Connected System -->
+
+            <section class="panel full-width">
+
+                <h2>
+                    <i class="fa-solid fa-server"></i>
+                    Connected System
+                </h2>
+
+                <table class="data-table">
+
+                    <tbody>
+
+                        <tr>
+                            <th>Hostname</th>
+                            <td id="settingsHostname">Loading...</td>
+                        </tr>
+
+                        <tr>
+                            <th>Platform</th>
+                            <td id="settingsPlatform">Loading...</td>
+                        </tr>
+
+                        <tr>
+                            <th>Architecture</th>
+                            <td id="settingsArchitecture">Loading...</td>
+                        </tr>
+
+                        <tr>
+                            <th>Node Version</th>
+                            <td id="settingsNode">Loading...</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script type="module" src="/js/page-common.js"></script>
+<script type="module" src="/js/settings.js"></script>
+
+</body>
+</html>

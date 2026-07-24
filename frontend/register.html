@@ -1,18 +1,205 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Register - ATLAS</title>
-    <link rel="stylesheet" href="css/main.css">
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ATLAS | Register</title>
+
+    <!-- Google Fonts -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <!-- Font Awesome -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+
+    <!-- CSS -->
+
+    <link rel="stylesheet"
+          href="css/variables.css">
+
+    <link rel="stylesheet"
+          href="css/login.css">
+
 </head>
+
 <body>
 
-<div class="container">
+<div class="auth-container">
 
-<h1>Register</h1>
+    <div class="auth-card">
 
-<p>User registration page coming next.</p>
+        <div class="logo">
+
+            <h1>
+
+                <i class="fa-solid fa-globe"></i>
+
+                ATLAS
+
+            </h1>
+
+            <p>
+
+                Create your account
+
+            </p>
+
+        </div>
+
+        <div
+            class="error-message"
+            id="errorMessage">
+
+        </div>
+
+        <form id="registerForm">
+
+            <div class="form-group">
+
+                <label>Full Name</label>
+
+                <input
+                    type="text"
+                    id="fullName"
+                    placeholder="Jeshwanth Varma"
+                    required>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Email Address</label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="example@gmail.com"
+                    required>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Password</label>
+
+                <div class="password-wrapper">
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Minimum 6 characters"
+                        required>
+
+                    <button
+                        type="button"
+                        class="toggle-password"
+                        id="togglePassword">
+
+                        <i
+                            id="eyeIcon"
+                            class="fa-solid fa-eye">
+                        </i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Confirm Password</label>
+
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    placeholder="Confirm Password"
+                    required>
+
+            </div>
+
+            <button
+                class="btn btn-primary"
+                type="submit"
+                id="registerBtn">
+
+                <i class="fa-solid fa-user-plus"></i>
+
+                Create Account
+
+            </button>
+
+            <div
+                class="loading"
+                id="loading">
+
+                <i class="fa-solid fa-spinner fa-spin"></i>
+
+                Creating Account...
+
+            </div>
+
+        </form>
+
+        <div class="divider">
+
+            <span>OR</span>
+
+        </div>
+
+        <button
+            class="btn btn-google"
+            id="googleRegisterBtn">
+
+            <img
+                src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                width="22">
+
+            Continue with Google
+
+        </button>
+
+        <div class="auth-footer">
+
+            Already have an account?
+
+            <a href="login.html">
+
+                Login
+
+            </a>
+
+            <br><br>
+
+            <small>
+
+                Protected by Firebase Authentication
+
+            </small>
+
+        </div>
+
+    </div>
 
 </div>
 
+<script type="module" src="js/auth.js"></script>
+
 </body>
+
 </html>

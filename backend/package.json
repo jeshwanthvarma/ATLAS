@@ -1,13 +1,19 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "ATLAS Infrastructure Monitoring Backend",
+  "main": "src/server.js",
   "scripts": {
-      "start": "node src/server.js",
-      "dev": "nodemon src/server.js"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
   },
-  "keywords": [],
+  "keywords": [
+    "atlas",
+    "monitoring",
+    "nodejs",
+    "express",
+    "postgresql"
+  ],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
@@ -22,7 +28,8 @@
     "jsonwebtoken": "^9.0.3",
     "morgan": "^1.11.0",
     "pg": "^8.22.0",
-    "socket.io": "^4.8.3"
+    "socket.io": "^4.8.3",
+    "systeminformation": "^5.27.11"
   },
   "devDependencies": {
     "eslint": "^10.7.0",

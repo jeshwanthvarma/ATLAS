@@ -1,21 +1,57 @@
-const bcrypt = require("bcrypt");
 const authRepository = require("../repositories/authRepository");
 
-async function registerUser(userData) {
-    const existingUser = await authRepository.findUserByEmail(userData.email);
+// ======================================================
+// Sync Firebase User
+// ======================================================
 
-    if (existingUser) {
-        throw new Error("Email already exists");
+async function syncFirebaseUser(firebaseUser) {
+
+    let user = await authRepository.findUserByEmail(
+        firebaseUser.email
+    );
+
+    if (user) {
+
+        await authRepository.updateLastLogin(
+            user.user_id
+        );
+
+        return user;
+
     }
 
-    const hashedPassword = await bcrypt.hash(userData.password, 10);
+    const names = (firebaseUser.name || "").trim().split(" ");
 
-    return {
-        ...userData,
-        passwordHash: hashedPassword,
-    };
+    const firstName = names[0] || "ATLAS";
+
+    const lastName =
+        names.slice(1).join(" ") || "";
+
+    const username =
+        firebaseUser.email.split("@")[0];
+
+    user = await authRepository.createFirebaseUser({
+
+        firebase_uid: firebaseUser.uid,
+
+        first_name: firstName,
+
+        last_name: lastName,
+
+        username,
+
+        email: firebaseUser.email,
+
+        auth_provider: "firebase"
+
+    });
+
+    return user;
+
 }
 
 module.exports = {
-    registerUser,
+
+    syncFirebaseUser
+
 };

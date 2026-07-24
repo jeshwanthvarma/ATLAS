@@ -1,24 +1,169 @@
 const monitoringService = require("./monitoringService");
 
-exports.getSystem = (req, res) => {
-    res.json(monitoringService.getSystemInfo());
+// =====================================================
+// System Information
+// =====================================================
+
+exports.getSystem = async (req, res) => {
+
+    try {
+
+        const data = await monitoringService.getSystemInfo();
+
+        res.status(200).json(data);
+
+    } catch (error) {
+
+        console.error("System Error:", error);
+
+        res.status(500).json({
+            error: "Failed to retrieve system information."
+        });
+
+    }
+
 };
 
-exports.getCpu = (req, res) => {
-    res.json(monitoringService.getCpuInfo());
+// =====================================================
+// CPU Information
+// =====================================================
+
+exports.getCpu = async (req, res) => {
+
+    try {
+
+        const data = await monitoringService.getCpuInfo();
+
+        res.status(200).json(data);
+
+    } catch (error) {
+
+        console.error("CPU Error:", error);
+
+        res.status(500).json({
+            error: "Failed to retrieve CPU information."
+        });
+
+    }
+
 };
 
-exports.getMemory = (req, res) => {
-    res.json(monitoringService.getMemoryInfo());
+// =====================================================
+// Memory Information
+// =====================================================
+
+exports.getMemory = async (req, res) => {
+
+    try {
+
+        const data = await monitoringService.getMemoryInfo();
+
+        res.status(200).json(data);
+
+    } catch (error) {
+
+        console.error("Memory Error:", error);
+
+        res.status(500).json({
+            error: "Failed to retrieve memory information."
+        });
+
+    }
+
 };
 
-exports.getDisk = (req, res) => {
-    res.json(monitoringService.getDiskInfo());
+// =====================================================
+// Disk Information
+// =====================================================
+
+exports.getDisk = async (req, res) => {
+
+    try {
+
+        const data = await monitoringService.getDiskInfo();
+
+        res.status(200).json(data);
+
+    } catch (error) {
+
+        console.error("Disk Error:", error);
+
+        res.status(500).json({
+            error: "Failed to retrieve disk information."
+        });
+
+    }
+
 };
 
-exports.getNetwork = (req, res) => {
-    res.json(monitoringService.getNetworkInfo());
+// =====================================================
+// Network Information
+// =====================================================
+
+exports.getNetwork = async (req, res) => {
+
+    try {
+
+        const data = await monitoringService.getNetworkInfo();
+
+        res.status(200).json(data);
+
+    } catch (error) {
+
+        console.error("Network Error:", error);
+
+        res.status(500).json({
+            error: "Failed to retrieve network information."
+        });
+
+    }
+
 };
-exports.getHealth = (req, res) => {
-    res.json(monitoringService.getHealthStatus());
+
+// =====================================================
+// Service Monitoring
+// =====================================================
+
+exports.getServices = async (req, res) => {
+
+    try {
+
+        const data = await monitoringService.getServicesInfo();
+
+        res.status(200).json(data);
+
+    } catch (error) {
+
+        console.error("Services Error:", error);
+
+        res.status(500).json({
+            error: "Failed to retrieve service information."
+        });
+
+    }
+
+};
+
+// =====================================================
+// Health Status
+// =====================================================
+
+exports.getHealth = async (req, res) => {
+
+    try {
+
+        const data = await monitoringService.getHealthStatus();
+
+        res.status(200).json(data);
+
+    } catch (error) {
+
+        console.error("Health Error:", error);
+
+        res.status(500).json({
+            error: "Failed to retrieve health status."
+        });
+
+    }
+
 };

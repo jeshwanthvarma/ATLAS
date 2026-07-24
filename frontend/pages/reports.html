@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Reports | ATLAS</title>
+
+    <link rel="stylesheet" href="/css/pages.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <i class="fa-solid fa-satellite-dish"></i>
+            <h2>ATLAS</h2>
+        </div>
+
+        <nav>
+
+            <a href="/dashboard.html">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="/pages/servers.html">
+                <i class="fa-solid fa-server"></i>
+                <span>Servers</span>
+            </a>
+
+            <a href="/pages/monitoring.html">
+                <i class="fa-solid fa-chart-area"></i>
+                <span>Monitoring</span>
+            </a>
+
+            <a href="/pages/alerts.html">
+                <i class="fa-solid fa-bell"></i>
+                <span>Alerts</span>
+            </a>
+
+            <a href="/pages/reports.html" class="active">
+                <i class="fa-solid fa-file-lines"></i>
+                <span>Reports</span>
+            </a>
+
+            <a href="/pages/security.html">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Security</span>
+            </a>
+
+            <a href="/pages/settings.html">
+                <i class="fa-solid fa-gear"></i>
+                <span>Settings</span>
+            </a>
+
+            <a href="#" id="logoutBtn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <!-- Main Content -->
+
+    <main class="content">
+
+        <header class="topbar">
+
+            <div>
+                <h1>Reports</h1>
+                <p>Current infrastructure monitoring report</p>
+            </div>
+
+            <div>
+                <strong id="userName">Loading...</strong>
+                <br>
+                <small id="userEmail" class="muted">Loading...</small>
+            </div>
+
+        </header>
+
+        <!-- Report Summary -->
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <i class="fa-solid fa-microchip"></i>
+                <h3>CPU Usage</h3>
+                <h1 id="reportCpu">Loading...</h1>
+            </div>
+
+            <div class="stat-card">
+                <i class="fa-solid fa-memory"></i>
+                <h3>Memory Usage</h3>
+                <h1 id="reportMemory">Loading...</h1>
+            </div>
+
+            <div class="stat-card">
+                <i class="fa-solid fa-hard-drive"></i>
+                <h3>Disk Usage</h3>
+                <h1 id="reportDisk">Loading...</h1>
+            </div>
+
+            <div class="stat-card">
+                <i class="fa-solid fa-gears"></i>
+                <h3>Services Running</h3>
+                <h1 id="reportServices">Loading...</h1>
+            </div>
+
+        </section>
+
+        <div class="page-grid">
+
+            <!-- System Report -->
+
+            <section class="panel">
+
+                <h2>
+                    <i class="fa-solid fa-server"></i>
+                    System Report
+                </h2>
+
+                <table class="data-table">
+
+                    <tbody>
+
+                        <tr>
+                            <th>Hostname</th>
+                            <td id="reportHostname">Loading...</td>
+                        </tr>
+
+                        <tr>
+                            <th>Platform</th>
+                            <td id="reportPlatform">Loading...</td>
+                        </tr>
+
+                        <tr>
+                            <th>Architecture</th>
+                            <td id="reportArchitecture">Loading...</td>
+                        </tr>
+
+                        <tr>
+                            <th>CPU Model</th>
+                            <td id="reportCpuModel">Loading...</td>
+                        </tr>
+
+                        <tr>
+                            <th>CPU Cores</th>
+                            <td id="reportCores">Loading...</td>
+                        </tr>
+
+                        <tr>
+                            <th>Total Memory</th>
+                            <td id="reportTotalMemory">Loading...</td>
+                        </tr>
+
+                        <tr>
+                            <th>Uptime</th>
+                            <td id="reportUptime">Loading...</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </section>
+
+            <!-- Security Report -->
+
+            <section class="panel">
+
+                <h2>
+                    <i class="fa-solid fa-shield-halved"></i>
+                    Security Report
+                </h2>
+
+                <table class="data-table">
+
+                    <tbody>
+
+                        <tr>
+                            <th>Active Sessions</th>
+                            <td id="reportSessions">Loading...</td>
+                        </tr>
+
+                        <tr>
+                            <th>PostgreSQL</th>
+                            <td id="reportPostgres">Loading...</td>
+                        </tr>
+
+                        <tr>
+                            <th>SSH</th>
+                            <td id="reportSSH">Loading...</td>
+                        </tr>
+
+                        <tr>
+                            <th>Firewall</th>
+                            <td id="reportFirewall">Loading...</td>
+                        </tr>
+
+                        <tr>
+                            <th>Failed Login Detection</th>
+                            <td id="reportFailedLogins">Loading...</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </section>
+
+            <!-- Service Report -->
+
+            <section class="panel full-width">
+
+                <h2>
+                    <i class="fa-solid fa-cubes"></i>
+                    Service Report
+                </h2>
+
+                <table class="data-table">
+
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Status</th>
+                            <th>CPU</th>
+                            <th>Memory</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="reportServicesTable">
+
+                        <tr>
+                            <td colspan="4">
+                                Loading...
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </section>
+
+            <!-- Report Metadata -->
+
+            <section class="panel full-width">
+
+                <h2>
+                    <i class="fa-solid fa-circle-info"></i>
+                    Report Information
+                </h2>
+
+                <table class="data-table">
+
+                    <tbody>
+
+                        <tr>
+                            <th>Generated At</th>
+                            <td id="reportGenerated">Loading...</td>
+                        </tr>
+
+                        <tr>
+                            <th>Network Interface</th>
+                            <td id="reportNetwork">Loading...</td>
+                        </tr>
+
+                        <tr>
+                            <th>IP Address</th>
+                            <td id="reportIP">Loading...</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script type="module" src="/js/page-common.js"></script>
+<script type="module" src="/js/reports.js"></script>
+
+</body>
+
+</html>

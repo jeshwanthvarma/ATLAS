@@ -1,9 +1,9 @@
 const os = require("os");
-const { execSync } = require("child_process");
+const si = require("systeminformation");
 
-// ==========================
+// =====================================================
 // Utility Functions
-// ==========================
+// =====================================================
 
 const formatBytes = (bytes) => {
     return (bytes / (1024 ** 3)).toFixed(2) + " GB";
@@ -12,162 +12,248 @@ const formatBytes = (bytes) => {
 const formatUptime = (seconds) => {
     const hrs = Math.floor(seconds / 3600);
     const mins = Math.floor((seconds % 3600) / 60);
+
     return `${hrs} Hours ${mins} Minutes`;
 };
 
-// ==========================
+// =====================================================
 // System Information
-// ==========================
+// =====================================================
 
-const getSystemInfo = () => ({
-    hostname: os.hostname(),
-    platform: os.platform(),
-    architecture: os.arch(),
-    uptime: formatUptime(os.uptime()),
-    nodeVersion: process.version,
-    cpuCores: os.cpus().length,
-    totalMemory: formatBytes(os.totalmem()),
-    freeMemory: formatBytes(os.freemem())
-});
+async function getSystemInfo() {
 
-// ==========================
+    const cpu = await si.cpu();
+
+    return {
+        hostname: os.hostname(),
+        platform: os.platform(),
+        architecture: os.arch(),
+        uptime: formatUptime(os.uptime()),
+        nodeVersion: process.version,
+        cpuModel: cpu.brand,
+        cpuManufacturer: cpu.manufacturer,
+        cpuCores: cpu.cores,
+        totalMemory: formatBytes(os.totalmem()),
+        freeMemory: formatBytes(os.freemem())
+    };
+}
+
+// =====================================================
 // CPU Information
-// ==========================
+// =====================================================
 
-const getCpuInfo = () => {
-    const cpus = os.cpus();
+async function getCpuInfo() {
+
+    const cpu = await si.cpu();
+    const load = await si.currentLoad();
+    const temp = await si.cpuTemperature();
 
     return {
-        model: cpus[0].model,
-        cores: cpus.length,
-        speedMHz: cpus[0].speed,
-        loadAverage: {
-            oneMinute: os.loadavg()[0],
-            fiveMinutes: os.loadavg()[1],
-            fifteenMinutes: os.loadavg()[2]
-        }
+        model: cpu.brand,
+        manufacturer: cpu.manufacturer,
+        cores: cpu.cores,
+        physicalCores: cpu.physicalCores,
+        speedGHz: cpu.speed,
+        usage: load.currentLoad.toFixed(2),
+        userLoad: load.currentLoadUser.toFixed(2),
+        systemLoad: load.currentLoadSystem.toFixed(2),
+        temperature: temp.main || "N/A"
     };
-};
+}
 
-// ==========================
+// =====================================================
 // Memory Information
-// ==========================
+// =====================================================
 
-const getMemoryInfo = () => {
+async function getMemoryInfo() {
 
-    const total = os.totalmem();
-    const free = os.freemem();
-    const used = total - free;
+    const mem = await si.mem();
 
     return {
-
-        totalMemory: formatBytes(total),
-        usedMemory: formatBytes(used),
-        freeMemory: formatBytes(free),
-        usagePercent: ((used / total) * 100).toFixed(2) + "%"
-
+        totalMemory: formatBytes(mem.total),
+        usedMemory: formatBytes(mem.used),
+        freeMemory: formatBytes(mem.free),
+        usagePercent: ((mem.used / mem.total) * 100).toFixed(2)
     };
-};
+}
 
-// ==========================
+// =====================================================
 // Disk Information
-// ==========================
+// =====================================================
 
-const getDiskInfo = () => {
+async function getDiskInfo() {
+
+    const disks = await si.fsSize();
+
+    if (!disks.length) {
+        return {
+            message: "No disk information."
+        };
+    }
+
+    const disk = disks[0];
+
+    return {
+        filesystem: disk.fs,
+        size: formatBytes(disk.size),
+        used: formatBytes(disk.used),
+        available: formatBytes(disk.size - disk.used),
+        usage: disk.use.toFixed(2),
+        mount: disk.mount
+    };
+}
+
+// =====================================================
+// Network Information
+// =====================================================
+
+async function getNetworkInfo() {
+
+    const interfaces = await si.networkInterfaces();
+    const stats = await si.networkStats();
+
+    const iface = interfaces.find((i) => !i.internal);
+
+    if (!iface) {
+        return {
+            message: "No active interface"
+        };
+    }
+
+    const net = stats.find((s) => s.iface === iface.iface);
+
+    return {
+        interface: iface.iface,
+        ipAddress: iface.ip4,
+        macAddress: iface.mac,
+        rxBytes: net ? net.rx_bytes : 0,
+        txBytes: net ? net.tx_bytes : 0,
+        rxPackets: net ? net.rx_packets : 0,
+        txPackets: net ? net.tx_packets : 0
+    };
+}
+
+// =====================================================
+// Service Monitoring
+// =====================================================
+
+async function getServicesInfo() {
+
+    const serviceNames = [
+        "postgresql",
+        "ssh",
+        "nginx",
+        "docker"
+    ];
+
+    const services = [];
+
+    for (const serviceName of serviceNames) {
+
+        try {
+
+            const result = await si.services(serviceName);
+
+            if (!result || result.length === 0) {
+
+                services.push({
+                    name: serviceName,
+                    running: false,
+                    status: "Not Installed",
+                    pid: null,
+                    cpu: 0,
+                    memory: 0
+                });
+
+                continue;
+            }
+
+            const service = result[0];
+
+            services.push({
+                name: serviceName,
+                running: Boolean(service.running),
+                status: service.running ? "Running" : "Stopped",
+                pid: service.pid || null,
+                cpu: Number(service.cpu || 0).toFixed(2),
+                memory: Number(service.mem || 0).toFixed(2)
+            });
+
+        } catch (error) {
+
+            services.push({
+                name: serviceName,
+                running: false,
+                status: "Unavailable",
+                pid: null,
+                cpu: 0,
+                memory: 0
+            });
+        }
+    }
+
+    return {
+        timestamp: new Date().toISOString(),
+        totalServices: services.length,
+        runningServices: services.filter(
+            (service) => service.running
+        ).length,
+        services
+    };
+}
+// =====================================================
+// Service Monitoring
+// =====================================================
+
+exports.getServices = async (req, res) => {
 
     try {
 
-        const output = execSync("df -h /")
-            .toString()
-            .split("\n")[1]
-            .trim()
-            .split(/\s+/);
+        const data = await monitoringService.getServicesInfo();
 
-        return {
-
-            filesystem: output[0],
-            size: output[1],
-            used: output[2],
-            available: output[3],
-            usage: output[4],
-            mountedOn: output[5]
-
-        };
+        res.status(200).json(data);
 
     } catch (error) {
 
-        return {
+        console.error("Services Error:", error);
 
-            error: "Unable to retrieve disk information."
-
-        };
+        res.status(500).json({
+            error: "Failed to retrieve service information."
+        });
 
     }
 
 };
+// =====================================================
+// Health Status
+// =====================================================
 
-// ==========================
-// Network Information
-// ==========================
+async function getHealthStatus() {
 
-const getNetworkInfo = () => {
-
-    const interfaces = os.networkInterfaces();
-
-    for (const name in interfaces) {
-
-        for (const net of interfaces[name]) {
-
-            if (net.family === "IPv4" && !net.internal) {
-
-                return {
-
-                    interface: name,
-                    ipAddress: net.address,
-                    macAddress: net.mac
-
-                };
-
-            }
-
-        }
-
-    }
+    const cpu = await getCpuInfo();
+    const memory = await getMemoryInfo();
+    const disk = await getDiskInfo();
 
     return {
-
-        message: "No active network interface found."
-
+        status: "Healthy",
+        timestamp: new Date().toISOString(),
+        cpuUsage: cpu.usage,
+        memoryUsage: memory.usagePercent,
+        diskUsage: disk.usage,
+        uptime: formatUptime(os.uptime())
     };
+}
 
-};
-
-// ==========================
-// Health Status
-// ==========================
-
-const getHealthStatus = () => ({
-
-    status: "Healthy",
-    timestamp: new Date().toISOString(),
-    uptime: formatUptime(os.uptime()),
-    cpuCores: os.cpus().length,
-    totalMemory: formatBytes(os.totalmem()),
-    freeMemory: formatBytes(os.freemem())
-
-});
-
-// ==========================
-// Export Functions
-// ==========================
+// =====================================================
+// Exports
+// =====================================================
 
 module.exports = {
-
     getSystemInfo,
     getCpuInfo,
     getMemoryInfo,
     getDiskInfo,
     getNetworkInfo,
+    getServicesInfo,
     getHealthStatus
-
 };

@@ -1,62 +1,206 @@
 // ======================================================
 // ATLAS API Service
-// Handles all communication with the backend
+// frontend/js/api.js
 // ======================================================
 
-class API {
+import { auth } from "./firebase.js";
 
-    static async request(endpoint, options = {}) {
+const API_BASE = "/api";
 
-        try {
+// ======================================================
+// Get Firebase Token
+// ======================================================
 
-            const response = await fetch(`${CONFIG.API_BASE}${endpoint}`, {
-                headers: {
-                    "Content-Type": "application/json",
-                    ...(options.headers || {})
-                },
-                ...options
-            });
+async function getToken() {
 
-            const data = await response.json();
+    const user = auth.currentUser;
 
-            return {
-                success: response.ok,
-                status: response.status,
-                data
-            };
+    if (!user) {
 
-        } catch (error) {
-
-            console.error("API Error:", error);
-
-            return {
-                success: false,
-                status: 500,
-                error: error.message
-            };
-
-        }
+        throw new Error(
+            "User is not authenticated."
+        );
 
     }
 
-    static getSystem() {
-        return this.request(CONFIG.ENDPOINTS.SYSTEM);
-    }
-
-    static getCPU() {
-        return this.request(CONFIG.ENDPOINTS.CPU);
-    }
-
-    static getMemory() {
-        return this.request(CONFIG.ENDPOINTS.MEMORY);
-    }
-
-    static getDisk() {
-        return this.request(CONFIG.ENDPOINTS.DISK);
-    }
-
-    static getNetwork() {
-        return this.request(CONFIG.ENDPOINTS.NETWORK);
-    }
+    return await user.getIdToken();
 
 }
+
+// ======================================================
+// Generic API Request
+// ======================================================
+
+async function apiRequest(endpoint, options = {}) {
+
+    const token = await getToken();
+
+    const response = await fetch(
+        `${API_BASE}${endpoint}`,
+        {
+
+            ...options,
+
+            headers: {
+
+                "Content-Type": "application/json",
+
+                Authorization: `Bearer ${token}`,
+
+                ...(options.headers || {})
+
+            }
+
+        }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+
+        throw new Error(
+            data.message ||
+            data.error ||
+            "API Request Failed"
+        );
+
+    }
+
+    return data;
+
+}
+
+// ======================================================
+// API Methods
+// ======================================================
+
+const API = {
+
+    // ==================================================
+    // System Information
+    // ==================================================
+
+    getSystem() {
+
+        return apiRequest("/system");
+
+    },
+
+    // ==================================================
+    // CPU Monitoring
+    // ==================================================
+
+    getCPU() {
+
+        return apiRequest("/cpu");
+
+    },
+
+    // ==================================================
+    // Memory Monitoring
+    // ==================================================
+
+    getMemory() {
+
+        return apiRequest("/memory");
+
+    },
+
+    // ==================================================
+    // Disk Monitoring
+    // ==================================================
+
+    getDisk() {
+
+        return apiRequest("/disk");
+
+    },
+
+    // ==================================================
+    // Network Monitoring
+    // ==================================================
+
+    getNetwork() {
+
+        return apiRequest("/network");
+
+    },
+
+    // ==================================================
+    // Service Monitoring
+    // ==================================================
+
+    getServices() {
+
+        return apiRequest("/services");
+
+    },
+
+    // ==================================================
+    // Security Overview
+    // ==================================================
+
+    getSecurity() {
+
+        return apiRequest("/security");
+
+    },
+
+    // ==================================================
+    // Security - Active Users
+    // ==================================================
+
+    getSecurityUsers() {
+
+        return apiRequest("/security/users");
+
+    },
+
+    // ==================================================
+    // Security - Login Activity
+    // ==================================================
+
+    getSecurityLogins() {
+
+        return apiRequest("/security/logins");
+
+    },
+
+    // ==================================================
+    // Security - Firewall
+    // ==================================================
+
+    getFirewall() {
+
+        return apiRequest("/security/firewall");
+
+    },
+
+    // ==================================================
+    // Authentication / Database User Sync
+    // ==================================================
+
+    syncUser() {
+
+        return apiRequest(
+            "/auth/sync",
+            {
+                method: "POST"
+            }
+        );
+
+    }
+
+};
+
+// ======================================================
+// Global API Reference
+// ======================================================
+
+window.API = API;
+
+// ======================================================
+// Export
+// ======================================================
+
+export default API;

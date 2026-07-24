@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Security | ATLAS</title>
+
+    <link rel="stylesheet" href="/css/pages.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- =====================================================
+         Sidebar
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <i class="fa-solid fa-satellite-dish"></i>
+            <h2>ATLAS</h2>
+        </div>
+
+        <nav>
+
+            <a href="/dashboard.html">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="/pages/servers.html">
+                <i class="fa-solid fa-server"></i>
+                <span>Servers</span>
+            </a>
+
+            <a href="/pages/monitoring.html">
+                <i class="fa-solid fa-chart-area"></i>
+                <span>Monitoring</span>
+            </a>
+
+            <a href="/pages/alerts.html">
+                <i class="fa-solid fa-bell"></i>
+                <span>Alerts</span>
+            </a>
+
+            <a href="/pages/reports.html">
+                <i class="fa-solid fa-file-lines"></i>
+                <span>Reports</span>
+            </a>
+
+            <a href="/pages/security.html" class="active">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Security</span>
+            </a>
+
+            <a href="/pages/settings.html">
+                <i class="fa-solid fa-gear"></i>
+                <span>Settings</span>
+            </a>
+
+            <a href="#" id="logoutBtn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <!-- =====================================================
+         Content
+    ====================================================== -->
+
+    <main class="content">
+
+        <header class="topbar">
+
+            <div>
+                <h1>Security Center</h1>
+                <p>System security and access monitoring</p>
+            </div>
+
+            <div>
+                <strong id="userName">Loading...</strong>
+                <br>
+                <small id="userEmail" class="muted">Loading...</small>
+            </div>
+
+        </header>
+
+        <!-- =================================================
+             Security Summary
+        ================================================== -->
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <i class="fa-solid fa-user-shield"></i>
+                <h3>Active Sessions</h3>
+                <h1 id="activeSessions">Loading...</h1>
+            </div>
+
+            <div class="stat-card">
+                <i class="fa-solid fa-database"></i>
+                <h3>PostgreSQL</h3>
+                <h1 id="postgresStatus">Loading...</h1>
+            </div>
+
+            <div class="stat-card">
+                <i class="fa-solid fa-terminal"></i>
+                <h3>SSH</h3>
+                <h1 id="sshStatus">Loading...</h1>
+            </div>
+
+            <div class="stat-card">
+                <i class="fa-solid fa-shield-halved"></i>
+                <h3>Firewall</h3>
+                <h1 id="firewallStatus">Loading...</h1>
+            </div>
+
+        </section>
+
+        <div class="page-grid">
+
+            <!-- Active Users -->
+
+            <section class="panel">
+
+                <h2>
+                    <i class="fa-solid fa-users"></i>
+                    Active User Sessions
+                </h2>
+
+                <table class="data-table">
+
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Terminal</th>
+                            <th>Login Date</th>
+                            <th>Login Time</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="activeUsersTable">
+
+                        <tr>
+                            <td colspan="4">
+                                Loading...
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </section>
+
+            <!-- Security Status -->
+
+            <section class="panel">
+
+                <h2>
+                    <i class="fa-solid fa-lock"></i>
+                    Security Status
+                </h2>
+
+                <table class="data-table">
+
+                    <tbody>
+
+                        <tr>
+                            <th>Hostname</th>
+                            <td id="securityHostname">Loading...</td>
+                        </tr>
+
+                        <tr>
+                            <th>PostgreSQL</th>
+                            <td id="postgresDetail">Loading...</td>
+                        </tr>
+
+                        <tr>
+                            <th>SSH</th>
+                            <td id="sshDetail">Loading...</td>
+                        </tr>
+
+                        <tr>
+                            <th>Firewall</th>
+                            <td id="firewallDetail">Loading...</td>
+                        </tr>
+
+                        <tr>
+                            <th>Failed Login Log</th>
+                            <td id="failedLoginStatus">Loading...</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </section>
+
+            <!-- Recent Login Activity -->
+
+            <section class="panel full-width">
+
+                <h2>
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    Recent Login / Boot Activity
+                </h2>
+
+                <ul
+                    id="loginActivity"
+                    class="alert-list"
+                >
+                    <li>Loading...</li>
+                </ul>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script type="module" src="/js/page-common.js"></script>
+<script type="module" src="/js/security.js"></script>
+
+</body>
+</html>

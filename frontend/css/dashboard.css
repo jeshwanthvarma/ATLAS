@@ -1,7 +1,8 @@
 @import url("variables.css");
-/* ===========================
-   ATLAS Dashboard CSS v1.0
-=========================== */
+
+/* =====================================================
+   ATLAS Dashboard CSS v2.0
+===================================================== */
 
 *{
     margin:0;
@@ -11,185 +12,230 @@
 
 body{
     font-family:'Inter',sans-serif;
-    background:#0F172A;
-    color:#F8FAFC;
+    background:var(--background);
+    color:var(--text-primary);
 }
 
-/* ===========================
-   Header
-=========================== */
+/* =====================================================
+   Layout
+===================================================== */
 
-header{
-
+.layout{
     display:flex;
-    justify-content:space-between;
+    min-height:100vh;
+}
+
+/* =====================================================
+   Sidebar
+===================================================== */
+
+.sidebar{
+    width:260px;
+    background:var(--card);
+    border-right:1px solid var(--border);
+    padding:30px 20px;
+}
+
+.brand{
+    display:flex;
     align-items:center;
-
-    padding:20px 60px;
-
-    background:#1E293B;
-
-    border-bottom:1px solid rgba(255,255,255,.05);
-
+    gap:12px;
+    margin-bottom:40px;
 }
 
-.logo{
+.brand i{
+    font-size:28px;
+    color:var(--primary);
+}
 
+.brand h2{
+    font-size:24px;
+    color:var(--text-primary);
+}
+
+.sidebar nav{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.sidebar nav a{
     display:flex;
     align-items:center;
-    gap:15px;
+    gap:12px;
 
-}
-
-.logo i{
-
-    color:#2563EB;
-    font-size:28px;
-
-}
-
-.logo h1{
-
-    font-size:28px;
-
-}
-
-nav{
-
-    display:flex;
-    gap:30px;
-
-}
-
-nav a{
-
-    color:#CBD5E1;
     text-decoration:none;
-    transition:.3s;
+
+    color:var(--text-secondary);
+
+    padding:14px 16px;
+
+    border-radius:12px;
+
+    transition:.25s;
+}
+
+.sidebar nav a:hover{
+
+    background:var(--primary);
+
+    color:white;
 
 }
 
-nav a:hover{
+.sidebar nav i{
 
-    color:#2563EB;
-
-}
-
-/* ===========================
-   Main
-=========================== */
-
-main{
-
-    width:90%;
-    max-width:1400px;
-
-    margin:auto;
+    width:22px;
 
 }
 
-/* ===========================
-   Hero
-=========================== */
+/* =====================================================
+   Content
+===================================================== */
 
-.hero{
+.content{
 
-    margin:50px 0;
+    flex:1;
 
-}
-
-.hero h2{
-
-    font-size:36px;
-    margin-bottom:10px;
+    padding:40px;
 
 }
 
-.hero p{
+/* =====================================================
+   Topbar
+===================================================== */
 
-    color:#94A3B8;
+.topbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:35px;
 
 }
 
-/* ===========================
-   Cards
-=========================== */
+.topbar h1{
 
-.cards{
+    font-size:32px;
+
+    margin-bottom:8px;
+
+}
+
+.topbar p{
+
+    color:var(--text-secondary);
+
+}
+
+.status-online{
+
+    background:#14532d;
+
+    color:#4ade80;
+
+    padding:10px 18px;
+
+    border-radius:25px;
+
+    font-weight:600;
+
+}
+
+/* =====================================================
+   Monitoring Cards
+===================================================== */
+
+.stats-grid{
 
     display:grid;
 
     grid-template-columns:repeat(4,1fr);
 
-    gap:25px;
+    gap:20px;
+
+    margin-bottom:30px;
 
 }
 
-.card{
+.stat-card{
 
-    background:#1E293B;
+    background:var(--card);
 
-    border-radius:15px;
+    border:1px solid var(--border);
 
-    padding:30px;
+    border-radius:16px;
 
-    transition:.3s;
+    padding:25px;
 
-}
-
-.card:hover{
-
-    transform:translateY(-6px);
+    transition:.25s;
 
 }
 
-.card i{
+.stat-card:hover{
 
-    font-size:30px;
-
-    color:#2563EB;
-
-    margin-bottom:20px;
+    transform:translateY(-5px);
 
 }
 
-.card h3{
+.stat-card i{
 
-    color:#94A3B8;
+    font-size:28px;
 
-    margin-bottom:15px;
+    color:var(--primary);
 
-}
-
-.card h1{
-
-    font-size:42px;
+    margin-bottom:18px;
 
 }
 
-/* ===========================
+.stat-card h3{
+
+    color:var(--text-secondary);
+
+    margin-bottom:12px;
+
+    font-size:16px;
+
+    font-weight:500;
+
+}
+
+.stat-card h1{
+
+    font-size:34px;
+
+    font-weight:700;
+
+}
+
+/* =====================================================
    Panels
-=========================== */
+===================================================== */
 
 .panels{
 
     display:grid;
 
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:2fr 1fr;
 
     gap:25px;
 
-    margin-top:40px;
+    margin-top:30px;
 
 }
 
 .panel{
 
-    background:#1E293B;
+    background:var(--card);
 
-    border-radius:15px;
+    border:1px solid var(--border);
 
-    padding:30px;
+    border-radius:16px;
+
+    padding:25px;
 
 }
 
@@ -207,116 +253,225 @@ main{
 
 .panel li{
 
-    padding:12px 0;
+    padding:14px 0;
 
-    border-bottom:1px solid rgba(255,255,255,.05);
+    border-bottom:1px solid var(--border);
 
 }
 
-/* ===========================
+.panel li:last-child{
+
+    border-bottom:none;
+
+}
+
+/* =====================================================
+   System Information
+===================================================== */
+
+.system-info{
+
+    margin-top:30px;
+
+}
+
+.system-info table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+.system-info td{
+
+    padding:14px;
+
+    border-bottom:1px solid var(--border);
+
+}
+
+.system-info td:first-child{
+
+    width:220px;
+
+    color:var(--text-secondary);
+
+}
+
+.system-info tr:last-child td{
+
+    border-bottom:none;
+
+}
+
+/* =====================================================
+   Chart
+===================================================== */
+
+canvas{
+
+    width:100%!important;
+
+    height:320px!important;
+
+}
+
+/* =====================================================
    Responsive
-=========================== */
+===================================================== */
 
-@media(max-width:1000px){
+@media(max-width:1200px){
 
-.cards{
+    .stats-grid{
 
-grid-template-columns:repeat(2,1fr);
+        grid-template-columns:repeat(2,1fr);
 
-}
-
-.panels{
-
-grid-template-columns:1fr;
+    }
 
 }
+
+@media(max-width:900px){
+
+    .layout{
+
+        flex-direction:column;
+
+    }
+
+    .sidebar{
+
+        width:100%;
+
+        border-right:none;
+
+        border-bottom:1px solid var(--border);
+
+    }
+
+    .panels{
+
+        grid-template-columns:1fr;
+
+    }
 
 }
 
 @media(max-width:650px){
 
-header{
+    .content{
 
-flex-direction:column;
-gap:20px;
+        padding:20px;
 
-padding:20px;
+    }
+
+    .topbar{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:20px;
+
+    }
+
+    .stats-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .topbar h1{
+
+        font-size:26px;
+
+    }
 
 }
+/* =====================================================
+   Service Monitoring
+===================================================== */
 
-nav{
-
-flex-wrap:wrap;
-justify-content:center;
-
+.services-panel{
+    margin-top:30px;
 }
 
-.cards{
-
-grid-template-columns:1fr;
-
-}
-
-.hero h2{
-
-font-size:28px;
-
-}
-
-}
-/* ===== Layout ===== */
-
-.layout{
-    display:flex;
-    min-height:100vh;
-}
-
-.sidebar{
-    width:260px;
-    background:var(--card);
-    padding:30px 20px;
-    border-right:1px solid var(--border);
-}
-
-.brand{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    margin-bottom:40px;
-}
-
-.brand i{
-    color:var(--primary);
-    font-size:28px;
-}
-
-.sidebar nav{
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-}
-
-.sidebar nav a{
-    color:var(--text-secondary);
-    text-decoration:none;
-    padding:14px;
-    border-radius:12px;
-    transition:.3s;
-}
-
-.sidebar nav a:hover{
-    background:var(--primary);
-    color:white;
-}
-
-.content{
-    flex:1;
-    padding:40px;
-}
-
-.topbar{
+.services-header{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:40px;
+    gap:20px;
+    margin-bottom:20px;
+}
+
+.services-header h2{
+    margin-bottom:6px;
+}
+
+.services-header p{
+    color:var(--text-secondary);
+    font-size:14px;
+}
+
+#servicesSummary{
+    color:var(--text-secondary);
+    font-size:14px;
+}
+
+.services-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+}
+
+.service-card{
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:18px;
+}
+
+.service-card h3{
+    margin-bottom:12px;
+    text-transform:capitalize;
+}
+
+.service-status{
+    display:inline-block;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:600;
+}
+
+.service-running{
+    background:#14532d;
+    color:#4ade80;
+}
+
+.service-stopped{
+    background:#450a0a;
+    color:#f87171;
+}
+
+.service-details{
+    margin-top:14px;
+    color:var(--text-secondary);
+    font-size:13px;
+    line-height:1.8;
+}
+
+@media(max-width:1200px){
+
+    .services-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:650px){
+
+    .services-grid{
+        grid-template-columns:1fr;
+    }
+
 }

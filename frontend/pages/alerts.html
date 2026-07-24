@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Alerts | ATLAS</title>
+
+    <link rel="stylesheet" href="/css/pages.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <i class="fa-solid fa-satellite-dish"></i>
+            <h2>ATLAS</h2>
+        </div>
+
+        <nav>
+
+            <a href="/dashboard.html">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="/pages/servers.html">
+                <i class="fa-solid fa-server"></i>
+                <span>Servers</span>
+            </a>
+
+            <a href="/pages/monitoring.html">
+                <i class="fa-solid fa-chart-area"></i>
+                <span>Monitoring</span>
+            </a>
+
+            <a href="/pages/alerts.html" class="active">
+                <i class="fa-solid fa-bell"></i>
+                <span>Alerts</span>
+            </a>
+
+            <a href="/pages/reports.html">
+                <i class="fa-solid fa-file-lines"></i>
+                <span>Reports</span>
+            </a>
+
+            <a href="/pages/security.html">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Security</span>
+            </a>
+
+            <a href="/pages/settings.html">
+                <i class="fa-solid fa-gear"></i>
+                <span>Settings</span>
+            </a>
+
+            <a href="#" id="logoutBtn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <!-- Main Content -->
+
+    <main class="content">
+
+        <header class="topbar">
+
+            <div>
+                <h1>Alerts</h1>
+                <p>Infrastructure and security alert monitoring</p>
+            </div>
+
+            <div>
+                <strong id="userName">Loading...</strong>
+                <br>
+                <small id="userEmail" class="muted">Loading...</small>
+            </div>
+
+        </header>
+
+        <!-- Alert Summary -->
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+
+                <i class="fa-solid fa-triangle-exclamation"></i>
+
+                <h3>Active Alerts</h3>
+
+                <h1 id="activeAlertCount">
+                    Loading...
+                </h1>
+
+            </div>
+
+            <div class="stat-card">
+
+                <i class="fa-solid fa-microchip"></i>
+
+                <h3>CPU Status</h3>
+
+                <h1 id="cpuAlertStatus">
+                    Loading...
+                </h1>
+
+            </div>
+
+            <div class="stat-card">
+
+                <i class="fa-solid fa-memory"></i>
+
+                <h3>Memory Status</h3>
+
+                <h1 id="memoryAlertStatus">
+                    Loading...
+                </h1>
+
+            </div>
+
+            <div class="stat-card">
+
+                <i class="fa-solid fa-shield-halved"></i>
+
+                <h3>Security Status</h3>
+
+                <h1 id="securityAlertStatus">
+                    Loading...
+                </h1>
+
+            </div>
+
+        </section>
+
+        <!-- Active Alerts -->
+
+        <section class="panel">
+
+            <h2>
+                <i class="fa-solid fa-bell"></i>
+                Active Alerts
+            </h2>
+
+            <table class="data-table">
+
+                <thead>
+                    <tr>
+                        <th>Severity</th>
+                        <th>Source</th>
+                        <th>Message</th>
+                    </tr>
+                </thead>
+
+                <tbody id="alertsTable">
+
+                    <tr>
+                        <td colspan="3">
+                            Loading alerts...
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+        <!-- Monitored Conditions -->
+
+        <section class="panel">
+
+            <h2>
+                <i class="fa-solid fa-list-check"></i>
+                Monitored Conditions
+            </h2>
+
+            <table class="data-table">
+
+                <thead>
+                    <tr>
+                        <th>Condition</th>
+                        <th>Current Value</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>CPU Usage</td>
+                        <td id="cpuCurrent">Loading...</td>
+                        <td id="cpuCondition">Loading...</td>
+                    </tr>
+
+                    <tr>
+                        <td>Memory Usage</td>
+                        <td id="memoryCurrent">Loading...</td>
+                        <td id="memoryCondition">Loading...</td>
+                    </tr>
+
+                    <tr>
+                        <td>Disk Usage</td>
+                        <td id="diskCurrent">Loading...</td>
+                        <td id="diskCondition">Loading...</td>
+                    </tr>
+
+                    <tr>
+                        <td>PostgreSQL</td>
+                        <td id="postgresCurrent">Loading...</td>
+                        <td id="postgresCondition">Loading...</td>
+                    </tr>
+
+                    <tr>
+                        <td>Firewall</td>
+                        <td id="firewallCurrent">Loading...</td>
+                        <td id="firewallCondition">Loading...</td>
+                    </tr>
+
+                    <tr>
+                        <td>Failed Login Detection</td>
+                        <td id="failedLoginCurrent">Loading...</td>
+                        <td id="failedLoginCondition">Loading...</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script type="module" src="/js/page-common.js"></script>
+<script type="module" src="/js/alerts.js"></script>
+
+</body>
+</html>
